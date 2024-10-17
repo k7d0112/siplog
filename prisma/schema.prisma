@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url = env("DATABASE_URL")
+}
+
+// ブログ記事テーブル
+model Post {
+  id Int @id @default(autoincrement())
+  postUserId String @unique
+  content String
+  goodAmount Int
+  commentAmount Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  postCategories PostCategory[]
+  goods Goods[]
+  comments Comments[]
+}
+
+// カテゴリーテーブル
+model Categories {
+  id Int @id @default(autoincrement())
+  name String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts PostCategory[]
+}
+
+// ブログ記事とカテゴリーを多対多で紐付ける中間テーブル
+model PostCategory {
+  id Int @id @default(autoincrement())
+  postId Int
+  categoryId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+// ユーザーテーブル
+model User {
+  id Int @id @default(autoincrement())
+  userId String @unique
+  name String
+  email String
+  content String
+  thumbnailUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  goods Goods[]
+  comments Comments[]
+}
+
+// ユーザーテーブルとブログ記事テーブルを多対多で紐付ける中間テーブル
+model Goods {
+  id Int @id @default(autoincrement())
+  userId String @map("user_id")
+  postId String @map("post_id")
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [postUserId], onDelete: Cascade)
+}
+
+// ユーザーテーブルとブログ記事テーブルを多対多で紐付ける中間テーブル
+model Comments {
+  id Int @id @default(autoincrement())
+  text String
+  userId String @map("user_id")
+  postId String @map("post_id")
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [postUserId], onDelete: Cascade)
+}
+
+// トークルームテーブル
+model TookRoom {
+  id Int @id @default(autoincrement())
+  tookRoomUsers TookRoomUser[]
+  @@map("took_room")
+}
+
+// トークテーブル
+model Took {
+  id Int @id @default(autoincrement())
+  tookRoomId Int @map("took_room_id")
+  senderId Int @unique @map("sender_id")
+  text String
+  createdAt DateTime @default(now())
+  tookRoomUsers TookRoomUser[]
+  @@map("took")
+}
+
+// トークルームテーブルとトークテーブルを1対多で紐付ける中間テーブル
+model TookRoomUser {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  tookRoomId Int @map("took_room_id")
+  tookRoom TookRoom @relation(fields: [tookRoomId], references: [id], onDelete: Cascade)
+  took Took @relation(fields: [userId], references: [senderId], onDelete: Cascade)
+  @@map("took_room_user")
+}
