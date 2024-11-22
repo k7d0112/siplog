@@ -6,8 +6,9 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 // ブログ記事テーブル
@@ -31,6 +32,7 @@ model Categories {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts PostCategory[]
+  reports ReportCategory[]
 }
 
 // ブログ記事とカテゴリーを多対多で紐付ける中間テーブル
@@ -48,10 +50,10 @@ model PostCategory {
 model User {
   id Int @id @default(autoincrement())
   userId String @unique
-  name String
+  name String?
   email String
-  content String
-  thumbnailUrl String
+  content String?
+  thumbnailUrl String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   goods Goods[]
@@ -107,4 +109,26 @@ model TookRoomUser {
   tookRoom TookRoom @relation(fields: [tookRoomId], references: [id], onDelete: Cascade)
   took Took @relation(fields: [userId], references: [senderId], onDelete: Cascade)
   @@map("took_room_user")
+}
+
+// レポートテーブル
+model Report {
+  id Int @id @default(autoincrement())
+  userId String @unique
+  title String
+  content String
+  reportCategories ReportCategory[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// レポートテーブルとカテゴリーテーブルを多対多の関係で紐付ける中間テーブル
+model ReportCategory {
+  id Int @id @default(autoincrement())
+  reportId Int @map("report_id")
+  categoryId Int @map("category_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 }
