@@ -5,3 +5,13 @@ export type Category = {
   createdAt: string,
   updateAt: string,
 }
+
+// フロントページのニュースカテゴリー
+export type FrontPostCategory = {
+  id: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string,
+  publishedAt: string,
+  revisedAt: string,
+}
