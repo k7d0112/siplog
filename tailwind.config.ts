@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,12 +10,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        // googlefont'Jost'の追加
+        jost: ['Jost', ...fontFamily.sans],
+        // googlefont'Noto Sans JP'の追加
+        noto: ['"Noto Sans JP"', ...fontFamily.sans],
+      },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        mainBlue: '#1664C0',
+        mainBlack: '#333',
+        mainGray: '#B4B4B4',
+        lineGray: 'D9D9D9',
+        mainBgGray: '#EEEFF3',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/line-clamp')
+  ],
 };
 export default config;

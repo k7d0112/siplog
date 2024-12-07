@@ -1,4 +1,4 @@
-import { Category } from "./Category";
+import { Category, FrontPostCategory } from "./Category";
 import { Goods } from './Goods';
 import { Comments } from './Comments';
 
@@ -32,4 +32,16 @@ export type UpdatePostRequestBody = {
   categories: { id: number }[],
   goods: { goods: Goods }[],
   comments: { comments: Comments }[],
+}
+
+// フロントページのデータ型
+export type FrontPost = {
+  id: string,
+  title: string,
+  contents: string,
+  createdAt: string,
+  updatedAt: string,
+  publishedAt: string,
+  revisedAt: string,
+  categories: FrontPostCategory[],
 }

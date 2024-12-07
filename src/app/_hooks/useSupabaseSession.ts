@@ -1,5 +1,5 @@
 // ユーザーのログイン状態を把握するためのカスタムhook
-import { supabase } from '@/utils/supabase'
+import { supabase } from '@/app/_libs/supabase'
 import { Session } from '@supabase/supabase-js'
 import { useState, useEffect } from 'react'
 
