@@ -15,12 +15,14 @@ const config: Config = {
         jost: ['Jost', ...fontFamily.sans],
         // googlefont'Noto Sans JP'の追加
         noto: ['"Noto Sans JP"', ...fontFamily.sans],
+        // googlefont'Barlow'の追加'
+        barlow: ['Barlow', ...fontFamily.sans],
       },
       colors: {
         mainBlue: '#1664C0',
         mainBlack: '#333',
         mainGray: '#B4B4B4',
-        lineGray: 'D9D9D9',
+        lineGray: '#D9D9D9',
         mainBgGray: '#EEEFF3',
       },
     },

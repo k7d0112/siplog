@@ -1,20 +1,8 @@
-import type { Metadata } from "next";
-// import localFont from "next/font/local";
+// ログイン後のページレイアウト
+import { Metadata } from "next";
 import { Jost, Noto_Sans_JP, Barlow } from 'next/font/google';
-import "./globals.css";
-import Header from "./_components/Header";
-import Footer from "./_components/Footer";
-
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
+import "@/app/globals.css";
+import { NavBar } from "./_components/NavBar";
 
 const jost = Jost({
   subsets: ['latin'],
@@ -33,23 +21,24 @@ const barlow = Barlow({
 });
 
 export const metadata: Metadata = {
-  title: "Sip Log",
+  title: "Sip Log | アプリ内ページ",
   description: "Sip Logでコーヒー体験を記録してコーヒー好きとシェアしませんか？",
-};
+}
 
-export default function RootLayout({
+export default function AfterLoginLayout ({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  return (
+  return(
     <html lang="ja">
       <body
         className={`${jost.className} ${NotoSansJP.className} ${barlow.className} antialiased`}
-      >
-        <Header />
-        {children}
-        <Footer />
+        >
+        <main className='bg-mainBgGray h-screen'>
+          {children}
+          <NavBar />
+        </main>
       </body>
     </html>
   );
