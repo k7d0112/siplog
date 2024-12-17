@@ -2,7 +2,7 @@ import { FC } from "react";
 import { IoMdClose } from "react-icons/io";
 import { ModalProps } from "../_types/Modal";
 import { motion, AnimatePresence } from 'framer-motion';
-import { modalVariants } from "@/utils/ModalVariants";
+import { modalVariants } from "@/app/utils/ModalVariants";
 
 export const Modal: FC<ModalProps> = ({ isOpen, handleClose, post }) => {
   if (!isOpen) return null;

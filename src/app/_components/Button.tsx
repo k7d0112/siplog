@@ -1,10 +1,8 @@
 import React from 'react'
+import { ClassNameProps } from '../_types/ClassName';
 
-type ButtonProps = {
-  className: string;
-};
 
-export const LoginButton: React.FC<ButtonProps> = ({ className }) => {
+export const LoginButton: React.FC<ClassNameProps> = ({ className }) => {
   return(
     <button
       type='button'
@@ -15,7 +13,7 @@ export const LoginButton: React.FC<ButtonProps> = ({ className }) => {
   );
 }
 
-export const SigninButton: React.FC<ButtonProps> = ({ className }) => {
+export const SigninButton: React.FC<ClassNameProps> = ({ className }) => {
   return(
     <button
       type='button'
