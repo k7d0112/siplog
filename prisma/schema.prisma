@@ -50,7 +50,7 @@ model PostCategory {
 model User {
   id Int @id @default(autoincrement())
   userId String @unique
-  name String?
+  userName String?
   email String
   content String?
   thumbnailUrl String?

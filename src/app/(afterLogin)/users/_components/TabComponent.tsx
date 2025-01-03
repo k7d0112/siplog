@@ -50,7 +50,8 @@ export const TabComponent: React.FC = () => {
       </div>
 
       {/* コンテンツ */}
-      <div className='px-3 flex-1 overflow-y-scroll'>
+      <div className='px-3 flex-1'>
+      {/* overflow-y-scroll */}
         {tabs.map((tab) =>
           activeTab === tab.id && (
             <div key={tab.id}>

@@ -1,11 +1,37 @@
 import { MdArrowLeft, MdArrowRight } from "react-icons/md";
 import { FaPlus, FaPen, FaTrashAlt } from "react-icons/fa";
+import { BarChartComponent, PieChartComponent, RadarChartComponent } from "./Chart";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import "@/app/globals.css";
 
 export const MypageReports = () => {
   return(
     <>
       {/* swiperで任意にスライドできるスライドを実装予定 */}
-      <div className='w-[350px] h-[350px] mx-auto shadow-md'>レポtーと一覧とグラフを実装予定</div>
+      <Swiper
+        modules={[Navigation, Pagination]}
+        spaceBetween={50}
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        onSlideChange={() => console.log('slide change')}
+        onSwiper={(swiper) => console.log(swiper)}
+        className='w-[350px] h-[350px] mx-auto shadow-md relative'
+      >
+        <SwiperSlide>
+          <BarChartComponent/>
+        </SwiperSlide>
+        <SwiperSlide>
+          <PieChartComponent/>
+        </SwiperSlide>
+        <SwiperSlide>
+          <RadarChartComponent/>
+        </SwiperSlide>
+      </Swiper>
 
       {/* 個人レポートの一覧表示を実装予定 */}
       <div className='w-full mt-4 mx-auto shadow-md border border-lineGray'>
