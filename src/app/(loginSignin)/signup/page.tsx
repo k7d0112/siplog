@@ -17,7 +17,7 @@ export default function Page () {
       email,
       password,
       options: {
-        emailRedirectTo: `http://localhost:3000`,
+        emailRedirectTo: `http://localhost:3000/users`,
       },
     });
 
@@ -69,6 +69,14 @@ export default function Page () {
         onSubmit={handleSubmit}
         className='space-y-5 w-full max-w-[300px] mt-10'
       >
+        {/* <InputArea
+          label='ユーザー名'
+          type='text'
+          name='userName'
+          value={userName}
+          onChange={handleChange}
+          placeholder='ユーザー名'
+        /> */}
         <InputArea
           label='メールアドレス'
           type='email'

@@ -118,3 +118,48 @@ ul {
   after:left-1/2
   after:-translate-x-1/2
 }
+
+/* Swiperのnavigation矢印のスタイル変更 */
+.swiper-button-next {
+  right: 5px;
+}
+
+.swiper-button-prev {
+  left: 5px;
+}
+
+.swiper-slide:nth-child(1) .recharts-wrapper .recharts-surface {
+  @apply
+  mt-7
+  ml-4
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  @apply
+  text-xl
+}
+
+/* questionsページタイトルの装飾 */
+.accordionTitleBefore:before,
+.accordionTitleAfter:after {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid var(--main-black);
+  border-left: 2px solid var(--main-black);
+  position: absolute;
+  top: 50%;
+}
+
+.accordionTitleBefore:before {
+  left: -5px;
+  transform: rotate(-45deg) translateY(-50%);
+}
+
+.accordionTitleBefore:after {
+  right: -8px;
+  top: 20%;
+  transform: rotate(135deg) translateY(-50%);
+}

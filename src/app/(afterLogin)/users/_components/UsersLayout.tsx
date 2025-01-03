@@ -46,9 +46,9 @@ export const UsersLayout: React.FC = () => {
           </p>
         </button>
       </div>
-      <div className='flex-1 overflow-y-scroll'>
+      {/* <div className='flex-1 overflow-y-scroll'> */}
         <TabComponent/>
-      </div>
+      {/* </div> */}
     </div>
     </>
   );
