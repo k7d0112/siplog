@@ -6,7 +6,6 @@ import { BiSolidReport } from "react-icons/bi";
 import { MypagePosts } from './MypagePosts';
 import { MypageReports } from './MypageReports';
 
-
 export const TabComponent: React.FC = () => {
   const tabs: TabProps[] = [
     {

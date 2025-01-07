@@ -6,7 +6,7 @@ import { GoodAmountProps } from "../posts/types/GoodAmount";
 import { MdPostAdd } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
 
-export const AmountButton: React.FC<GoodAmountProps> = ({ type, status }) => {
+export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount }) => {
   const [clickedStatus, setClickedStatus] = useState<boolean>(status);
   if ( type === 'heart') {
     return(
@@ -16,7 +16,7 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status }) => {
         >
           {clickedStatus ? <FaHeart size={15} className='fill-[#ff3333]'/> : <FaRegHeart size={15} className='fill-mainBlack'/>}
         </button>
-        <span className='font-jost font-medium text-sm text-mainBlack'>20</span>
+        <span className='font-jost font-medium text-sm text-mainBlack'>{amount}</span>
       </div>
     );
   } else if ( type === 'comment') {
@@ -27,7 +27,7 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status }) => {
         >
           {clickedStatus ? <FaCommentDots size={15} className='fill-mainBlue'/> : <FaRegCommentDots size={15} className='fill-mainBlack'/>}
         </button>
-        <span className='font-jost font-medium text-sm text-mainBlack'>20</span>
+        <span className='font-jost font-medium text-sm text-mainBlack'>{amount}</span>
       </div>
     );
   } else if ( type === 'posts') {
@@ -37,7 +37,7 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status }) => {
           <MdPostAdd size={20} className='fill-mainBlue' />
           <span className='text-[10px] font-noto font-normal text-mainBlack'>投稿数</span>
         </div>
-        <span className='font-jost font-medium text-sm text-mainBlack'>20</span>
+        <span className='font-jost font-medium text-sm text-mainBlack'>{amount}</span>
       </div>
     );
   } else if ( type === 'report') {
@@ -47,7 +47,7 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status }) => {
           <BiSolidReport size={20} className='fill-mainBlue' />
           <span className='text-[10px] font-noto font-normal text-mainBlack'>レポート数</span>
         </div>
-        <span className='font-jost font-medium text-sm text-mainBlack'>20</span>
+        <span className='font-jost font-medium text-sm text-mainBlack'>{amount}</span>
       </div>
     );
   }

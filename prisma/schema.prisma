@@ -53,7 +53,7 @@ model User {
   userName String?
   email String
   content String?
-  thumbnailUrl String?
+  thumbnailImageKey String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   goods Goods[]

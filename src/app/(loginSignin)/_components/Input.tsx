@@ -4,7 +4,7 @@ import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 
 // 入力欄のinputタグ
 export const InputArea: React.FC<InputProps> = ({
-  label,type, name, value, onChange, placeholder
+  label, type, name, value, onChange, placeholder
 }) => {
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const togglePasswordVisibility = () => {

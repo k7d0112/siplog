@@ -1,9 +1,14 @@
 import Image from "next/image";
+import { UserIconProps } from "@/app/_types/User";
+import { useGetImageUrl } from "@/app/_hooks/useGetImageUrl";
 
-export const UserIcon =  () => {
+export const UserIcon: React.FC<UserIconProps> =  ({thumbnailImageKey}) => {
+  // カスタムフックでアイコン画像をキーから取得
+  const { imageUrl } = useGetImageUrl(thumbnailImageKey, 'userIcon_thumbnailUrl', '/images/man.png');
+
   return(
     <Image
-      src='/images/man.png'
+      src={imageUrl}
       alt='ユーザーアイコン'
       width={40}
       height={40}
