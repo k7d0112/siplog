@@ -66,6 +66,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
 
     // DBに保存するようのキー
     setThumbnailImageKey(uploadedKey);
+    console.log(thumbnailImageKey);
 
     // プレビュー用に公開URLを取得
     const { data: { publicUrl }} = supabase.storage
@@ -93,7 +94,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
           userName: editName,
           content: editContent,
           // 新しいURLがあればそれを使用し、なければ既存のURLを維持
-          thumbnailUrl: thumbnailImageKey || user?.thumbnailImageKey || null,
+          thumbnailImageKey: thumbnailImageKey || user?.thumbnailImageKey || null,
         }),
       });
 
