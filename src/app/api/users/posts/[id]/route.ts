@@ -34,8 +34,8 @@ export const GET = async (
               select: {
                 id: true,
                 userId: true,
-                name: true,
-                thumbnailUrl: true,
+                userName: true,
+                thumbnailImageKey: true,
               },
             },
           },
@@ -63,8 +63,8 @@ export const GET = async (
         user: {
           id: comment.user.id,
           userId: comment.user.userId,
-          name: comment.user.name,
-          thumbnailUrl: comment.user.thumbnailUrl,
+          name: comment.user.userName,
+          thumbnailImageKey: comment.user.thumbnailImageKey,
         },
         createdAt: comment.createdAt,
       })),

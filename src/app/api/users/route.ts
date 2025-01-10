@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { supabase } from '@/app/_libs/supabase'
-import { CreateUserRecord } from '@/app/_types/User'
+import { User, CreateUserRecord, UpdateUserinfo } from '@/app/_types/User'
+import { GetUserInfo } from '@/app/(afterLogin)/users/_types/User';
 
 const prisma = new PrismaClient();
 
@@ -9,13 +10,14 @@ const prisma = new PrismaClient();
 export const POST = async ( request: NextRequest ) => {
   try {
     const body = await request.json();
-    const { userId, email }: CreateUserRecord = body;
+    const { userName, userId, email }: CreateUserRecord = body;
 
     // Prismaで新しいユーザーを作成
     const newUser = await prisma.user.create({
       data: {
         userId,
         email,
+        userName,
       },
     });
 
@@ -36,8 +38,8 @@ export const GET = async ( request: NextRequest ) => {
   const { data: authUser, error } = await supabase.auth.getUser(token);
 
   // supabaseに送ったtokenが正しくない場合、errorが返却されるため、クライアントにもエラーを返す
-  if ( error ) {
-    return NextResponse.json({ status: error.message }, { status: 400});
+  if ( error || !authUser?.user ) {
+    return NextResponse.json({ status: 'invalid token or user not found' }, { status: 400});
   }
 
   // tokenが正しい場合以下を実行
@@ -48,9 +50,9 @@ export const GET = async ( request: NextRequest ) => {
       },
       select: {
         userId: true,
-        name: true,
+        userName: true,
         content: true,
-        thumbnailUrl: true,
+        thumbnailImageKey: true,
       },
     });
 
@@ -65,14 +67,47 @@ export const GET = async ( request: NextRequest ) => {
     });
 
     const formattedUserProfile = {
-      id: userProfile.userId,
-      name: userProfile.name,
-      thumbnailUrl: userProfile.thumbnailUrl,
+      userId: userProfile.userId,
+      userName: userProfile.userName,
+      thumbnailImageKey: userProfile.thumbnailImageKey,
       content: userProfile.content,
       postCount: postCount,
     }
 
     return NextResponse.json({ status: 'ok', UserProfile: formattedUserProfile }, { status: 200 });
+  } catch ( error ) {
+    if ( error instanceof Error ) {
+      return NextResponse.json({ status: error.message }, { status: 400 });
+    }
+  }
+}
+
+// ユーザーマイページのユーザー情報更新用APIエンドポイント
+export const PUT = async (
+  request: NextRequest
+) => {
+  // フロントから送られてくるトークンを取得し、supabaseでトークンが正しいか検証＆ユーザー情報を取得
+  const token = request.headers.get('Authorization') ?? '';
+  const { data: authUser, error } = await supabase.auth.getUser(token);
+  if ( error ) {
+    return NextResponse.json({ status: error.message }, { status: 400 })
+  }
+
+  const { userName, content, thumbnailImageKey }: UpdateUserinfo = await request.json();
+
+  try {
+    const updateUserInfo = await prisma.user.update({
+      where: {
+        userId: authUser.user.id,
+      },
+      data: {
+        userName,
+        content,
+        thumbnailImageKey,
+      },
+    });
+
+    return NextResponse.json({ status: 'ok', updateUserInfo }, { status: 200 });
   } catch ( error ) {
     if ( error instanceof Error ) {
       return NextResponse.json({ status: error.message }, { status: 400 });

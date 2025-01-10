@@ -1,3 +1,4 @@
+// 高評価のデータ型
 export type Goods = {
   id: number,
   userId: string,

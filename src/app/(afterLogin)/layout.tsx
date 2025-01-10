@@ -30,6 +30,7 @@ export default function AfterLoginLayout ({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
   return(
     <html lang="ja">
       <body
