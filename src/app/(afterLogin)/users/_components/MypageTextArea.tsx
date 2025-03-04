@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { MyPageTextAreaProps } from '../_types/MyPageTextAreaProps';
 
-export const MypageTextArea: React.FC = () => {
+export const MypageTextArea: React.FC<MyPageTextAreaProps> = ({ content }) => {
   const [isToggle, setIsToggle] = useState<boolean>(false);
 
   // 3点リーダーの省略をON/OFfするための関数
@@ -20,7 +21,7 @@ export const MypageTextArea: React.FC = () => {
             isToggle ? 'line-clamp-none' : 'line-clamp-3'
           }`}
         >
-          テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト
+          {content}
         </p>
       </button>
     </div>

@@ -32,13 +32,17 @@ export const POST = async ( request: NextRequest ) => {
 // ログイン済ユーザーのマイページ表示用APIエンドポイント
 export const GET = async ( request: NextRequest ) => {
   // フロントエンドから送られてきたリクエストヘッダーからtokenを取得
-  const token = request.headers.get('Authorization') ?? '';
+  const authHeader = request.headers.get('Authorization') ?? '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : authHeader;
+  // デバック用
+  console.log("Received token:", token);
 
   // supabaseに対してtokenを送る
   const { data: authUser, error } = await supabase.auth.getUser(token);
 
   // supabaseに送ったtokenが正しくない場合、errorが返却されるため、クライアントにもエラーを返す
   if ( error || !authUser?.user ) {
+    console.log('Supabase getUser error:', error);
     return NextResponse.json({ status: 'invalid token or user not found' }, { status: 400});
   }
 

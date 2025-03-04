@@ -33,10 +33,17 @@ export const GET = async (
               select: {
                 id: true,
                 userId: true,
-                name: true,
-                thumbnailUrl: true,
+                userName: true,
+                thumbnailImageKey: true,
               },
             },
+          },
+        },
+        user: {
+          select: {
+            userId: true,
+            userName: true,
+            thumbnailImageKey: true,
           },
         },
       },
@@ -62,13 +69,20 @@ export const GET = async (
         id: comment.id,
         text: comment.text,
         user: {
-          id: comment.user.id,
+          // id: comment.user.id,
           userId: comment.user.userId,
-          name: comment.user.name,
-          thumbnailUrl: comment.user.thumbnailUrl,
+          userName: comment.user.userName,
+          thumbnailImageKey: comment.user.thumbnailImageKey,
         },
         createdAt: comment.createdAt,
-      }))
+      })),
+      user: {
+        userId: post.user.userId,
+        userName: post.user.userName,
+        thumbnailImageKey: post.user.thumbnailImageKey,
+      },
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
     }
 
     return NextResponse.json({ status: 'OK', post: formattedPost }, {status: 200 })

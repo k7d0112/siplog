@@ -1,5 +1,6 @@
 export type GoodAmountProps = {
-  type: string;
+  type: 'heart' | 'comment' | 'posts' | 'report';
   status: boolean;
   amount: number;
+  postId: number;
 }

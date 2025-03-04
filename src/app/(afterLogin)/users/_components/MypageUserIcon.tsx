@@ -10,9 +10,10 @@ export const MypageUserIcon: React.FC<UserIconProps> = ({thumbnailImageKey}) => 
     <Image
       src={imageUrl}
       alt="'ユーザーアイコン"
-      width={80}
-      height={80}
+      width={60}
+      height={60}
       className='rounded-full bg-white aspect-square'
+      priority
     />
   );
 }

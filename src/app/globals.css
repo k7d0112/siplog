@@ -134,6 +134,11 @@ ul {
   ml-4
 }
 
+.swiper-slide:nth-child(1) .recharts-wrapper .recharts-legend-wrapper .recharts-default-legend .recharts-legend-item .recharts-surface {
+  @apply
+  mt-0
+}
+
 .swiper-button-prev::after,
 .swiper-button-next::after {
   @apply

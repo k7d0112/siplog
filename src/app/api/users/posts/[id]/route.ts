@@ -80,50 +80,50 @@ export const GET = async (
 }
 
 // 投稿更新用APIエンドポイント
-export const PUT = async (
-  request: NextRequest,
-  { params } : { params: { id: string }}
-) => {
-  const { id } = params;
-  const { postUserId, content, goodAmount, commentAmount, categories }: UpdatePostRequestBody = await request.json();
+// export const PUT = async (
+//   request: NextRequest,
+//   { params } : { params: { id: string }}
+// ) => {
+//   const { id } = params;
+//   const { postUserId, content, goodAmount, commentAmount, categories }: UpdatePostRequestBody = await request.json();
 
-  try {
-    const updateUserPost = await prisma.post.update({
-      where: {
-        id: parseInt(id),
-      },
-      data: {
-        postUserId,
-        content,
-        goodAmount,
-        commentAmount,
-      },
-    });
+//   try {
+//     const updateUserPost = await prisma.post.update({
+//       where: {
+//         id: parseInt(id),
+//       },
+//       data: {
+//         postUserId,
+//         content,
+//         goodAmount,
+//         commentAmount,
+//       },
+//     });
 
-    // 一旦記事とカテゴリーの中間テーブルのデータを削除
-    await prisma.postCategory.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
+//     // 一旦記事とカテゴリーの中間テーブルのデータを削除
+//     await prisma.postCategory.delete({
+//       where: {
+//         id: parseInt(id),
+//       },
+//     });
 
-  // 記事とカテゴリーの中間テーブルのレコードをDBに生成
-  for ( const category of categories ) {
-    await prisma.postCategory.create({
-      data: {
-        postId: updateUserPost.id,
-        categoryId: category.id,
-      },
-    });
-  }
+//   // 記事とカテゴリーの中間テーブルのレコードをDBに生成
+//   for ( const category of categories ) {
+//     await prisma.postCategory.create({
+//       data: {
+//         postId: updateUserPost.id,
+//         categoryId: category.id,
+//       },
+//     });
+//   }
 
-    return NextResponse.json({ status: 'ok' }, { status: 200 });
-  } catch ( error ) {
-    if ( error instanceof Error ) {
-      return NextResponse.json({ status: error.message }, { status: 400 });
-    }
-  }
-}
+//     return NextResponse.json({ status: 'ok' }, { status: 200 });
+//   } catch ( error ) {
+//     if ( error instanceof Error ) {
+//       return NextResponse.json({ status: error.message }, { status: 400 });
+//     }
+//   }
+// }
 
 // 投稿削除用APIエンドポイント
 export const DELETE = async (

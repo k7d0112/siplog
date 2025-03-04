@@ -8,14 +8,27 @@ const prisma = new PrismaClient();
 export const GET = async ( request: NextRequest ) => {
   const token = await request.headers.get('Authorization') ?? '';
   const { data: authUser, error } = await supabase.auth.getUser(token);
-  if ( error  ) {
+  if ( error ) {
     return NextResponse.json({ status: error.message }, { status: 400 });
   }
 
   try {
+    // categoryも一緒に取得
     const userPosts = await prisma.post.findMany({
       where: {
         postUserId: authUser.user.id,
+      },
+      include: {
+        postCategories: {
+          include: {
+            category: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -29,3 +42,4 @@ export const GET = async ( request: NextRequest ) => {
     }
   }
 }
+
