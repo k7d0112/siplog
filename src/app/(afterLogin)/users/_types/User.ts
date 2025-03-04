@@ -1,3 +1,5 @@
+import { UserPost } from "@/app/_types/User"
+
 // ユーザーマイページのユーザー情報取得時の型
 export type GetUserInfo = {
   userId: string,
@@ -14,4 +16,13 @@ export type UserEditModalProps = {
   token: string | null,
   user: GetUserInfo | null,
   onUpdateUser: (updatedUser: GetUserInfo) => void,
+}
+
+// ユーザーマイページでユーザー情報更新時のモーダルで使用する型
+export type UserPostEditModalProps = {
+  isOpen: boolean,
+  onClose: () => void,
+  token: string | null,
+  userPost: UserPost | null,
+  onUpdateUserPost: (updateUserPost: UserPost) => void,
 }

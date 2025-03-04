@@ -11,7 +11,7 @@ export const Accordion = () => {
   return(
     <>
       <div className='mt-2'>
-        <div className='bg-white py-2 px-7 relative'>
+        <div className='bg-white py-2 px-7 relative shadow-md'>
           <h1 className='font-noto font-bold text-base text-mainBlack'>
             <span
               className='text-mainBlue font-noto text-lg font-medium absolute top-[5.5px] left-2'

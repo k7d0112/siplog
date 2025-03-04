@@ -17,19 +17,24 @@ export const UsersLayout: React.FC = () => {
   // 取得したユーザー情報を保存
   const [user, setUser] = useState<GetUserInfo | null>(null);
 
+  // カスタムフックからsupabase.authのユーザー情報を取得
   const { session, token } = useSupabaseSession();
 
   // マイページに表示するユーザー情報を取得するためのfetch処理 (GET)
   useEffect(() => {
     // useSupabaseSession()が非同期処理のためtokenが渡されるまでfecth処理は行わない、かつtokenがnullの場合、headersに渡すとエラーが出るのでその対策
     if (!token) return;
+    // デバック用
+    console.log(token);
 
     const fetcher = async () => {
       try {
+        // token がある場合、"Bearer " を付けて送信
+        const authHeader: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
         const res = await fetch('/api/users', {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: token,
+            ...authHeader,
           },
         });
         // レスポンスがエラー(400など)の場合は throw する
@@ -74,18 +79,20 @@ export const UsersLayout: React.FC = () => {
     session ? (
       user ? (
         <div className='h-screen flex flex-col'>
-          <div className='p-5'>
+          <div className='p-5 bg-white'>
             <div className='flex justify-between items-start gap-x-2'>
-              <div className='flex items-start gap-x-2'>
+              <div className='flex items-center gap-x-2'>
                 <MypageUserIcon thumbnailImageKey={user.thumbnailImageKey}/>
-                <div className='mt-6'>
-                  <UserName userName={user.userName}/>
+                <div className=''>
+                  <UserName
+                    userName={user.userName}
+                  />
                   <ul className='flex items-center gap-x-2 mt-2'>
                     <li>
-                      <AmountButton type='posts' status={false} amount={user.postCount}/>
+                      {/* <AmountButton type='posts' status={false} amount={user.postCount}/> */}
                     </li>
                     <li>
-                      <AmountButton type='report' status={false} amount={0}/>
+                      {/* <AmountButton type='report' status={false} amount={0}/> */}
                     </li>
                   </ul>
                 </div>

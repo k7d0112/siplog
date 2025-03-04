@@ -39,8 +39,8 @@ export const GET = async ( request: NextRequest ) => {
           select: {
             id: true,
             userId: true,
-            name: true,
-            thumbnailUrl: true,
+            userName: true,
+            thumbnailImageKey: true,
           },
         },
       },

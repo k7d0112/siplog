@@ -25,7 +25,10 @@ export const TabComponent: React.FC = () => {
   return(
     <div className='flex flex-col h-hull'>
       {/* タブメニュー */}
-      <div className='flex h-10 sticky top-0 z-10'>
+      {/* sticky適応 */}
+      {/* <div className='flex h-10 sticky top-0 z-10'> */}
+      <div className='flex h-10 relative top-0 z-10'>
+      {/* <div className='flex h-10 fixed top-0 z-10'> */}
         {tabs.map((tab) => {
           const Icon = tab.label;
           return(

@@ -14,15 +14,16 @@ datasource db {
 // ブログ記事テーブル
 model Post {
   id Int @id @default(autoincrement())
-  postUserId String @unique
+  postUserId String
   content String
-  goodAmount Int
-  commentAmount Int
+  goodAmount Int @default(0)
+  commentAmount Int @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   postCategories PostCategory[]
   goods Goods[]
   comments Comments[]
+  user User @relation(fields: [postUserId], references: [userId])
 }
 
 // カテゴリーテーブル
@@ -32,7 +33,6 @@ model Categories {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   posts PostCategory[]
-  reports ReportCategory[]
 }
 
 // ブログ記事とカテゴリーを多対多で紐付ける中間テーブル
@@ -58,17 +58,20 @@ model User {
   updatedAt DateTime @updatedAt
   goods Goods[]
   comments Comments[]
+  posts Post[]
 }
 
 // ユーザーテーブルとブログ記事テーブルを多対多で紐付ける中間テーブル
 model Goods {
   id Int @id @default(autoincrement())
-  userId String @map("user_id")
-  postId String @map("post_id")
+  userId String
+  postId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  post Post @relation(fields: [postId], references: [postUserId], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
 }
 
 // ユーザーテーブルとブログ記事テーブルを多対多で紐付ける中間テーブル
@@ -76,11 +79,11 @@ model Comments {
   id Int @id @default(autoincrement())
   text String
   userId String @map("user_id")
-  postId String @map("post_id")
+  postId Int @map("post_id")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user User @relation(fields: [userId], references: [userId], onDelete: Cascade)
-  post Post @relation(fields: [postId], references: [postUserId], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
 
 // トークルームテーブル
@@ -111,24 +114,40 @@ model TookRoomUser {
   @@map("took_room_user")
 }
 
+enum ReportType {
+  HAND_DRIP
+  CAFE
+}
+
 // レポートテーブル
 model Report {
   id Int @id @default(autoincrement())
-  userId String @unique
+  userId String //@unique
+  type ReportType
   title String
   content String
-  reportCategories ReportCategory[]
+  cost Int
+  // ハンドドリップレポート専用
+  bitterness Int?
+  sweetness Int?
+  aroma Int?
+  acidity Int?
+  aftertaste Int?
+  roastLevel Int?
+  beanOrigin String?
+  // カフェレポート専用
+  cafeName String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 // レポートテーブルとカテゴリーテーブルを多対多の関係で紐付ける中間テーブル
-model ReportCategory {
-  id Int @id @default(autoincrement())
-  reportId Int @map("report_id")
-  categoryId Int @map("category_id")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
-  category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-}
+// model ReportCategory {
+//   id Int @id @default(autoincrement())
+//   reportId Int @map("report_id")
+//   categoryId Int @map("category_id")
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
+//   category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+// }

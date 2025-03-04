@@ -13,13 +13,28 @@ export const useSupabaseSession = () => {
     const fetcher = async () => {
       const {
         data: { session },
-      } = await supabase.auth.getSession()
+      } = await supabase.auth.getSession();
       setSession(session);
-      setToken(session?.access_token || null)
-      setIsLoading(false)
+      setToken(session?.access_token || null);
+      setIsLoading(false);
+      // デバック用
+      // console.log(session?.access_token);
     }
+    // デバック用
+    // console.log(session?.access_token);
 
-    fetcher()
+    fetcher();
+
+    // リアルタイムでセッション変更を監視
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setToken(session?.access_token || null);
+      setIsLoading(false);
+    });
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   return { session, isLoading, token }
