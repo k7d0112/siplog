@@ -13,15 +13,6 @@ import { supabase } from "@/app/_libs/supabase";
 // import { PostgrestPayload } from '@supabase/supabase-js';
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 
-type PostUpdatePayload = {
-  eventType: string;
-  schema: string;
-  table: string;
-  commit_timestamp: string;
-  old: UserPost;
-  new: UserPost;
-}
-
 export const PostLayout = () => {
   // 投稿一覧取得用のstate
   const [allPosts, setAllPosts] = useState<UserPost[]>([]);
@@ -29,6 +20,7 @@ export const PostLayout = () => {
   const [error, setError] = useState<string | null>(null);
   const { session, token, isLoading } = useSupabaseSession();
 
+  // 初回表示時に既存データを取得
   useEffect(() => {
     const fetcher = async () => {
       if (isLoading) return;
@@ -60,22 +52,37 @@ export const PostLayout = () => {
       }
     }
     fetcher();
-
     // Supabaseのリアルタイム購読を設定
-    const subscription = supabase
-      .from('Post')
-      .on('UPDATE', (payload: PostUpdatePayload) => {
-        const updatedPost = payload.new as UserPost;
-        setAllPosts(prevPosts => prevPosts.map(post => post.id === updatedPost.id ? updatedPost : post));
-      })
-      .subscribe();
+    const postChannel = supabase.channel('realtime-posts')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Post' },
+      async (payload) => {
+        console.log('Post table changed!', payload);
+        await fetcher();
+      }
+    )
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'Goods' },
+      async (payload) => {
+        console.log('INSERT into Goods', payload.new);
+        await fetcher();
+      }
+    )
+    // .on(
+    //   'postgres_changes',
+    //   { event: 'DELETE', schema: 'public', table: 'Goods' },
+    //   async (payload) => {
+    //     console.log('DELETE into Goods', payload.old);
+    //     await fetcher();
+    //   }
+    // )
+    .subscribe()
 
-    // return () => {
-    //   supabase.removeSubscription(subscription);
-    // };
     return () => {
-      subscription.unsubscribe();
-    };
+      postChannel.unsubscribe();
+    }
   }, [session, isLoading]);
 
   if (loading) {
@@ -88,26 +95,29 @@ export const PostLayout = () => {
 
   return(
     <div>
-      {allPosts.map((post) => (
-        <div
-          key={post.id}
-          className='border-b border-lineGray p-5'
-        >
-          {/* <div> */}
-            <Link href={`/posts/${post.id}`}>
-              <div className='flex items-center gap-x-3.5'>
-                <UserIcon thumbnailImageKey={post.user.thumbnailImageKey}/>
-                <UserName userName={post.user.userName}/>
-                <CreatedTime className='ml-auto' createdAt={post.createdAt} />
-              </div>
-              <TextArea className='mt-2.5' content={post.content} />
-              <ul className='mt-2.5 flex flex-wrap gap-2'>
-                {post.categories.map((category) => (
-                  <li key={category.id}>
-                    <CategoryTag categoryName={category.name}/>
-                  </li>
-                ))}
-              </ul>
+      {allPosts.map((post) => {
+        const isOwnPost =(post.postUserId === session?.user.id);
+        return(
+          <div
+            key={post.id}
+            className='border-b border-lineGray p-5'
+          >
+            {/* <div> */}
+              <Link href={`/posts/${post.id}`}>
+                <div className='flex items-center gap-x-3.5'>
+                  <UserIcon thumbnailImageKey={post.user.thumbnailImageKey}/>
+                  <UserName userName={post.user.userName}/>
+                  <CreatedTime className='ml-auto' createdAt={post.createdAt} />
+                </div>
+                <TextArea className='mt-2.5' content={post.content} />
+                <ul className='mt-2.5 flex flex-wrap gap-2'>
+                  {post.categories.map((category) => (
+                    <li key={category.id}>
+                      <CategoryTag categoryName={category.name}/>
+                    </li>
+                  ))}
+                </ul>
+              </Link>
               <ul className='mt-2.5 flex gap-2'>
                 <li>
                   <AmountButton
@@ -115,6 +125,8 @@ export const PostLayout = () => {
                     status={post.liked}
                     amount={post.goodAmount}
                     postId={post.id}
+                    token={token}
+                    isOwnPost={isOwnPost}
                   />
                 </li>
                 <li>
@@ -123,13 +135,14 @@ export const PostLayout = () => {
                     status={false}
                     amount={post.commentAmount}
                     postId={post.id}
+                    token={token}
                   />
                 </li>
               </ul>
-            </Link>
-          {/* </div> */}
-        </div>
-      ))}
+            {/* </div> */}
+          </div>
+        );
+      })}
     </div>
   );
 }

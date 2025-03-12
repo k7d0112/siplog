@@ -19,10 +19,16 @@ export const GET = async ( request: NextRequest ) => {
     return NextResponse.json({ status: 'Error', message: '認証に失敗しました。' }, { status: 401 });
   }
 
+  // ユーザー毎に投稿表示を変更するためのクエリパラメータ取得
+  const url = new URL(request.url);
+  const myPage = url.searchParams.get('myPage');
+
   const userId = user.id;
 
   try {
+    const whereClause = myPage === 'true' ? { postUserId: userId } : {};
     const posts = await prisma.post.findMany ({
+      where: whereClause,
       include: {
         postCategories: {
           include: {
@@ -34,14 +40,7 @@ export const GET = async ( request: NextRequest ) => {
             },
           },
         },
-        goods: {
-          where: {
-            userId: userId,
-          },
-          select: {
-            id: true,
-          },
-        },
+        goods: true,
         comments: true,
         user: {
           select: {
@@ -62,6 +61,7 @@ export const GET = async ( request: NextRequest ) => {
       postUserId: post.postUserId,
       content: post.content,
       goodAmount: post.goods.length,
+      liked: post.goods.some((g) => g.userId === userId),
       commentAmount: post.comments.length,
       categories: post.postCategories.map((postCategory) => ({
         id: postCategory.category.id,
@@ -74,7 +74,6 @@ export const GET = async ( request: NextRequest ) => {
         userName: post.user.userName,
         thumbnailImageKey: post.user.thumbnailImageKey,
       },
-      liked: post.goods.length > 0,
     }));
 
     return NextResponse.json({ status: 'OK', posts: formattedPosts }, { status: 200 })
