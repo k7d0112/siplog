@@ -26,10 +26,11 @@ export const MypagePosts = () => {
 
     const fetcher = async () => {
       try {
-        const res = await fetch('/api/posts', {
+        const res = await fetch('/api/posts?myPage=true', {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: token,
+            // Authorization: token,
+            Authorization: `Bearer ${token}`,
           },
         });
         if (!res.ok) {
@@ -92,7 +93,7 @@ export const MypagePosts = () => {
                   </li>
                 ))}
               </ul>
-              <ul className='mt-2.5 flex gap-2'>
+              {/* <ul className='mt-2.5 flex gap-2'>
                 <li>
                   <AmountButton
                     type='heart'
@@ -107,7 +108,7 @@ export const MypagePosts = () => {
                     amount={userPost.commentAmount}
                   />
                 </li>
-              </ul>
+              </ul> */}
             </div>
           )
         })

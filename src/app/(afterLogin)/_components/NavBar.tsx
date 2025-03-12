@@ -10,10 +10,15 @@ import { useEffect, useState } from "react";
 import { CreateModal } from "./CreateModal";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { Category } from "@/app/_types/Category";
+import { useScrollDirection } from "@/app/_hooks/useScrollDirection";
+import { useScroll } from "motion/react";
+import { supabase } from '@/app/_libs/supabase'
+import { useRouter } from 'next/navigation'
 
 // アプリ内のページ下部に固定表示するナビバーコンポーネント
 export const NavBar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   // モーダル表示を管理
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -50,10 +55,27 @@ export const NavBar = () => {
     setIsModalOpen(false);
   }
 
+  // スクロール方向によるNavBarの表示・非表示の切り替え
+  const scrollDirection = useScrollDirection();
+  const navBarClass = scrollDirection === 'down'
+    ? 'translate-y-full opacity-0'
+    : 'translate-y-0 opacity-100';
+
+  // ログアウト
+  const handleLogout = async () => {
+    if(!window.confirm('ログアウトしますが、よろしいですか？')) {
+      return null;
+    }
+
+    await supabase.auth.signOut();
+    router.push('/');
+    router.refresh();
+  }
+
   if (!userId) return null;
 
   return(
-    <nav className='fixed bottom-0 left-0 bg-white w-full'>
+    <nav className={`fixed bottom-0 left-0 bg-white w-full transition-all duration-300 ease-in-out ${navBarClass}`}>
       <ul className='flex items-center justify-between px-5 py-3'>
         <li className='w-16'>
           <Link
@@ -108,11 +130,15 @@ export const NavBar = () => {
             <span className={GetStringClass(pathname, ['/questions'])}>Q&A</span>
           </Link>
         </li>
-        {/* <li>
-          <Link href=''>
-            <IoLogOutOutline />
-          </Link>
-        </li> */}
+        <li className='w-16'>
+          <button
+            className='flex flex-col items-center'
+            onClick={handleLogout}
+          >
+            <IoLogOutOutline className='fill-mainBlack w-7 h-7' />
+            <span className='text-mainBlack text-[10px] font-noto font-normal'>ログアウト</span>
+          </button>
+        </li>
       </ul>
       {/* 投稿作成&レポート作成用モーダル */}
       <CreateModal
