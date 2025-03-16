@@ -4,19 +4,30 @@ import { useParams } from "next/navigation";
 import { PostDetailLayout } from "./_components/PostDetailLayout";
 import { useEffect, useState } from "react";
 import { UserPostDetail } from "@/app/_types/Post";
+import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 
 export default function Page() {
   const params = useParams();
-  const { id } = params;
+  const { postId } = params;
   const [post, setPost] = useState<UserPostDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const { token, isLoading } = useSupabaseSession();
 
   useEffect(() => {
-    if (!id) return;
+    if(isLoading) return;
+
+    if (!postId || !token) {
+      setLoading(false);
+      return;
+    };
 
     const fetcher = async () => {
       try {
-        const res = await fetch(`/api/posts/${id}`);
+        const res = await fetch(`/api/posts/${postId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.status || 'APIエラー');
@@ -30,7 +41,7 @@ export default function Page() {
       }
     }
     fetcher();
-  }, [id]);
+  }, [postId, token, isLoading]);
 
   if (loading) {
     return <div>Loading...</div>;

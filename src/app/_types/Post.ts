@@ -64,6 +64,7 @@ export type UserPost = {
 // ユーザー投稿詳細ページのデータ型
 export type UserPostDetailProps = {
   post: UserPostDetail,
+  token?: string | null | undefined,
 }
 
 // ユーザー投稿詳細のデータ型

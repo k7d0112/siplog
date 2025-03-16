@@ -70,6 +70,14 @@ export const PostLayout = () => {
         await fetcher();
       }
     )
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'Comments'},
+      async (payload) => {
+        console.log('INSERT into Comments', payload.new);
+        await fetcher();
+      }
+    )
     // .on(
     //   'postgres_changes',
     //   { event: 'DELETE', schema: 'public', table: 'Goods' },
@@ -100,7 +108,7 @@ export const PostLayout = () => {
         return(
           <div
             key={post.id}
-            className='border-b border-lineGray p-5'
+            className='border-b border-lineGray p-5 bg-white'
           >
             {/* <div> */}
               <Link href={`/posts/${post.id}`}>
@@ -132,7 +140,7 @@ export const PostLayout = () => {
                 <li>
                   <AmountButton
                     type='comment'
-                    status={false}
+                    status={post.commentAmount > 0 ? true : false}
                     amount={post.commentAmount}
                     postId={post.id}
                     token={token}

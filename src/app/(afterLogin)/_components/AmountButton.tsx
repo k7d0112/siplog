@@ -10,6 +10,7 @@ import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, postId, token, isOwnPost }) => {
   const [count, setCount] = useState<number>(amount);
   const [liked, setLiked] = useState<boolean>(status);
+  const [comment, setComment] = useState<boolean>(status);
   const [loading, setLoading] = useState<boolean>(false);
   // const { token } = useSupabaseSession();
 
@@ -80,6 +81,7 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, 
   //     <span>{count}</span>
   //   </button>
   // );
+
   if ( type === 'heart') {
     return(
       <div className='flex items-center gap-1'>
@@ -97,11 +99,13 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, 
   } else if ( type === 'comment') {
     return(
       <div className='flex items-center gap-1'>
-        <button
-          // onClick={() => setClickedStatus(!clickedStatus)}
+        <span>
+          {comment ? <FaCommentDots size={15} className='fill-mainBlue'/> : <FaRegCommentDots size={15} className='fill-mainBlack'/>}
+        </span>
+        {/* <button
         >
-          {/* {clickedStatus ? <FaCommentDots size={15} className='fill-mainBlue'/> : <FaRegCommentDots size={15} className='fill-mainBlack'/>} */}
-        </button>
+          {clickedStatus ? <FaCommentDots size={15} className='fill-mainBlue'/> : <FaRegCommentDots size={15} className='fill-mainBlack'/>}
+        </button> */}
         <span className='font-jost font-medium text-sm text-mainBlack'>{amount}</span>
       </div>
     );

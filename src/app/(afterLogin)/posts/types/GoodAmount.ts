@@ -4,5 +4,5 @@ export type GoodAmountProps = {
   amount: number;
   postId: number;
   isOwnPost?: boolean;
-  token: string | null;
+  token?: string | null;
 }

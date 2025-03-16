@@ -1,5 +1,5 @@
 type DetailTextAreaProps = {
-  className: string,
+  className?: string,
   content: string,
 }
 

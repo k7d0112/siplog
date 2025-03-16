@@ -75,7 +75,7 @@ export const NavBar = () => {
   if (!userId) return null;
 
   return(
-    <nav className={`fixed bottom-0 left-0 bg-white w-full transition-all duration-300 ease-in-out ${navBarClass}`}>
+    <nav className={`fixed bottom-0 left-0 bg-white w-full border-t border-lineGray transition-all duration-300 ease-in-out ${navBarClass}`}>
       <ul className='flex items-center justify-between px-5 py-3'>
         <li className='w-16'>
           <Link
