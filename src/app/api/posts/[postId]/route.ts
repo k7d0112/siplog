@@ -7,13 +7,13 @@ const prisma = new PrismaClient();
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: {id: string } },
+  { params }: { params: {postId: string } },
 ) => {
-  const { id } = params;
+  const { postId } = params;
   try {
     const post = await prisma.post.findUnique({
       where: {
-        id: parseInt(id),
+        id: parseInt(postId),
       },
       include: {
         postCategories: {

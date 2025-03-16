@@ -17,7 +17,7 @@ export const MypagePosts = () => {
   // 編集対象の投稿を保持
   const [selectedPost, setSelectedPost] = useState<UserPost | null>(null);
   // supabase.authからログイン済ユーザーのuserIdを取得
-  const { session, token } = useSupabaseSession();
+  const { session, token, isLoading } = useSupabaseSession();
   const userId = session?.user.id;
 
   // ユーザー投稿一覧取得
