@@ -9,9 +9,9 @@ export const useScrollDirection = (): "up" | "down" => {
     const updateScrollDirection = () => {
       const currentScrollY = window.scrollY;
       const direction = currentScrollY > lastScrollY ? 'down' : 'up';
-      if (direction !== scrollDirection) {
-        setScrollDirection(direction);
-      }
+      setScrollDirection(prev => {
+        return direction !== prev ? direction : prev;
+      });
       lastScrollY = currentScrollY > 0 ? currentScrollY : 0;
     };
 
@@ -20,7 +20,7 @@ export const useScrollDirection = (): "up" | "down" => {
     return () => {
       window.removeEventListener('scroll', updateScrollDirection);
     };
-  }, [scrollDirection]);
+  }, []);
 
   return scrollDirection;
 };

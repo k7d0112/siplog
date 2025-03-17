@@ -78,7 +78,7 @@ export const UsersLayout: React.FC = () => {
   return(
     session ? (
       user ? (
-        <div className='h-screen flex flex-col'>
+        <div className='flex flex-col'>
           <div className='p-5 bg-white'>
             <div className='flex justify-between items-start gap-x-2'>
               <div className='flex items-center gap-x-2'>

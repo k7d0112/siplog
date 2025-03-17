@@ -68,64 +68,72 @@ export const MypagePosts = () => {
 
   return(
     <>
-      {userPosts.length > 0 ? (
-        userPosts.map((userPost) => {
-          return (
-            <div
-              key={userPost.id}
-              className='border-b border-lineGray py-4'
-            >
-              <div className='flex items-center justify-between'>
-                <CreatedTime className='' createdAt={userPost.createdAt} />
-                {/* 投稿編集用のペンマークボタン */}
-                <FaPen
-                  onClick={() => handleModalOpen(userPost)}
-                  className='fill-mainBlue'
-                />
-              </div>
-              <div className='mt-2.5'>
-                <MypageTextArea content={userPost.content} />
-              </div>
-              <ul className='mt-2.5 flex flex-wrap gap-2'>
-                {userPost.categories.map((category) => (
-                  <li key={category.id}>
-                    <CategoryTag categoryName={category.name}/>
+      <div className='bg-mainBgGray'>
+        {userPosts.length > 0 ? (
+          userPosts.map((userPost) => {
+            const isOwnPost = (userPost.postUserId === session?.user.id);
+            return (
+              <div
+                key={userPost.id}
+                className='border-b border-lineGray py-4'
+              >
+                <div className='flex items-center justify-between'>
+                  <CreatedTime className='' createdAt={userPost.createdAt} />
+                  {/* 投稿編集用のペンマークボタン */}
+                  <FaPen
+                    onClick={() => handleModalOpen(userPost)}
+                    className='fill-mainBlue'
+                  />
+                </div>
+                <div className='mt-2.5'>
+                  <MypageTextArea content={userPost.content} />
+                </div>
+                <ul className='mt-2.5 flex flex-wrap gap-2'>
+                  {userPost.categories.map((category) => (
+                    <li key={category.id}>
+                      <CategoryTag categoryName={category.name}/>
+                    </li>
+                  ))}
+                </ul>
+                <ul className='mt-2.5 flex gap-2'>
+                  <li>
+                    <AmountButton
+                      type='heart'
+                      status={false}
+                      amount={userPost.goodAmount}
+                      postId={userPost.id}
+                      isOwnPost={isOwnPost}
+                      token={token}
+                    />
                   </li>
-                ))}
-              </ul>
-              {/* <ul className='mt-2.5 flex gap-2'>
-                <li>
-                  <AmountButton
-                    type='heart'
-                    status={false}
-                    amount={userPost.goodAmount}
-                  />
-                </li>
-                <li>
-                  <AmountButton
-                    type='comment'
-                    status={false}
-                    amount={userPost.commentAmount}
-                  />
-                </li>
-              </ul> */}
-            </div>
-          )
-        })
-      ) : (
-        <p className='flex justify-center mt-20'>投稿はまだありません</p>
-      )}
+                  <li>
+                    <AmountButton
+                      type='comment'
+                      status={false}
+                      amount={userPost.commentAmount}
+                      postId={userPost.id}
+                      token={token}
+                    />
+                  </li>
+                </ul>
+              </div>
+            )
+          })
+        ) : (
+          <p className='flex justify-center mt-20'>投稿はまだありません</p>
+        )}
 
-      {/* 投稿編集用モーダルを定義 */}
-      {selectedPost && (
-        <UserPostEditModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          token={token}
-          userPost={selectedPost}
-          onUpdateUserPost={handleUpdateUserPost}
-        />
-      )}
+        {/* 投稿編集用モーダルを定義 */}
+        {selectedPost && (
+          <UserPostEditModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            token={token}
+            userPost={selectedPost}
+            onUpdateUserPost={handleUpdateUserPost}
+          />
+        )}
+      </div>
     </>
   );
 }
