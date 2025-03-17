@@ -140,7 +140,10 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
       <ul className="pb-3 border-b border-lineGray">
         {comments.map((comment) => (
           // <div className='mt-5 relative before:content-[""] before:w-[1px] before:h-[50px] before:bg-lineGray before:absolute before:left-5 before:top-[-50px]'>
-          <div className='mt-3 pt-3 border-t border-lineGray'>
+          <div
+            key={comment.id}
+            className='mt-3 pt-3 border-t border-lineGray'
+          >
             <div className='flex gap-x-2 items-center justify-between'>
               <div className='flex gap-x-2 items-center'>
                 <UserIcon thumbnailImageKey={comment.user.thumbnailImageKey}/>

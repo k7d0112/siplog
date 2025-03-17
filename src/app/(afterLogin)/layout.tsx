@@ -36,7 +36,7 @@ export default function AfterLoginLayout ({
       <body
         className={`${jost.className} ${NotoSansJP.className} ${barlow.className} antialiased`}
         >
-        <main className='bg-mainBgGray h-screen'>
+        <main className='bg-white'>
           {children}
           <NavBar />
         </main>

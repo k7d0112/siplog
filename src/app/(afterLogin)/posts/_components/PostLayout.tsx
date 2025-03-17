@@ -108,7 +108,7 @@ export const PostLayout = () => {
         return(
           <div
             key={post.id}
-            className='border-b border-lineGray p-5 bg-white'
+            className='border-b border-lineGray p-5 bg-mainBgGray'
           >
             {/* <div> */}
               <Link href={`/posts/${post.id}`}>
