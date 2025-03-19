@@ -151,3 +151,11 @@ model Report {
 //   report Report @relation(fields: [reportId], references: [id], onDelete: Cascade)
 //   category Categories @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 // }
+
+model Contact {
+  id Int @id @default(autoincrement())
+  userName String
+  email String
+  content String
+  createdAt DateTime @default(now())
+}
