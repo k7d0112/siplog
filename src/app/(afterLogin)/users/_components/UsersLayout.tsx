@@ -25,7 +25,8 @@ export const UsersLayout: React.FC = () => {
     // useSupabaseSession()が非同期処理のためtokenが渡されるまでfecth処理は行わない、かつtokenがnullの場合、headersに渡すとエラーが出るのでその対策
     if (!token) return;
     // デバック用
-    console.log(token);
+    // console.log(token);
+    // console.log(session)
 
     const fetcher = async () => {
       try {
