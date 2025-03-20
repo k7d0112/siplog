@@ -1,12 +1,13 @@
 'use client'
 
-import { FormEvent, useEffect, useState } from 'react'
-import { AmountButton } from "../../_components/AmountButton";
+import { useEffect, useState } from 'react'
+// import { FormEvent, useEffect, useState } from 'react'
+// import { AmountButton } from "../../_components/AmountButton";
 import { UserName } from "../../_components/UserName";
 import { FaPen } from "react-icons/fa";
 import { MypageUserIcon } from "./MypageUserIcon";
 import { TabComponent } from './TabComponent';
-import { toggleText } from '@/app/utils/ButtonToggle';
+// import { toggleText } from '@/app/utils/ButtonToggle';
 import { GetUserInfo } from '../_types/User';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';
 import { UserEditModal } from './UserEditModal';

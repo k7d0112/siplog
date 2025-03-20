@@ -1,3 +1,5 @@
+'use client'
+
 import { ReportDetailModalProps } from '@/app/_types/Report';
 import { FaPen, FaTrashAlt } from "react-icons/fa";
 

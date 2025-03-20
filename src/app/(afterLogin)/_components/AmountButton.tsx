@@ -5,7 +5,7 @@ import { FaHeart, FaRegHeart, FaCommentDots, FaRegCommentDots } from "react-icon
 import { GoodAmountProps } from "../posts/types/GoodAmount";
 import { MdPostAdd } from "react-icons/md";
 import { BiSolidReport } from "react-icons/bi";
-import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
+// import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 
 export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, postId, token, isOwnPost }) => {
   const [count, setCount] = useState<number>(amount);

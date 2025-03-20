@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 import { CreateCommentRequestBody } from '@/app/_types/Comments';
-import { supabase } from '@/app/_libs/supabase';
+// import { supabase } from '@/app/_libs/supabase';
 
 const prisma = new PrismaClient();
 

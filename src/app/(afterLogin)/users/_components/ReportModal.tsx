@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react';
 import { FormErrors, ReportModalProps } from '../_types/Report';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';

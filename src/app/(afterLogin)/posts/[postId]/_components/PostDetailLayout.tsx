@@ -8,11 +8,11 @@ import { DetailUserName } from "./DetailUserName";
 import { DetailTextArea } from "./DetailTextArea";
 import { CategoryTag } from "../../../_components/CategoryTag";
 import { AmountButton } from "../../../_components/AmountButton";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
-import { UserPost, UserPostDetailProps } from "@/app/_types/Post";
+import { UserPostDetailProps } from "@/app/_types/Post";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
-import { Comments, GetComment } from "@/app/_types/Comments";
+import { GetComment } from "@/app/_types/Comments";
 import { supabase } from "@/app/_libs/supabase";
 
 export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {

@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
 import { supabase } from '@/app/_libs/supabase'
-import { User, CreateUserRecord, UpdateUserinfo } from '@/app/_types/User'
-import { GetUserInfo } from '@/app/(afterLogin)/users/_types/User';
+import { CreateUserRecord, UpdateUserinfo } from '@/app/_types/User'
+// import { User, CreateUserRecord, UpdateUserinfo } from '@/app/_types/User'
+// import { GetUserInfo } from '@/app/(afterLogin)/users/_types/User';
 
 const prisma = new PrismaClient();
 

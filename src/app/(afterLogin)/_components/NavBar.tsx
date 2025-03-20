@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { FaIdCard, FaListUl, FaQuestionCircle, FaPlus } from "react-icons/fa";
-import { FaMessage } from "react-icons/fa6";
+// import { FaMessage } from "react-icons/fa6";
 import { IoLogOutOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { GetIconClass, GetStringClass } from "@/app/utils/GetIconClass";
@@ -11,7 +11,7 @@ import { CreateModal } from "./CreateModal";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { Category } from "@/app/_types/Category";
 import { useScrollDirection } from "@/app/_hooks/useScrollDirection";
-import { useScroll } from "motion/react";
+// import { useScroll } from "motion/react";
 import { supabase } from '@/app/_libs/supabase'
 import { useRouter } from 'next/navigation'
 
