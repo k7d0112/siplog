@@ -1,4 +1,4 @@
-import Image from "next/image";
+// import Image from "next/image";
 import { FirstView } from "../_components/FirstView";
 import { Voice } from "../_components/Voice"
 import { BgSection } from "../_components/BgSection"

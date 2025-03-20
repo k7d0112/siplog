@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { Post, UpdatePostRequestBody } from '@/app/_types/Post';
+import { UpdatePostRequestBody } from '@/app/_types/Post';
+// import { Post, UpdatePostRequestBody } from '@/app/_types/Post';
 
 // 記事詳細取得時のAPIエンドポイント
 const prisma = new PrismaClient();

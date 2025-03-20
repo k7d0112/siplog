@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import useSWR from 'swr';
-import { MdArrowLeft, MdArrowRight } from "react-icons/md";
-import { FaPlus, FaPen, FaTrashAlt } from "react-icons/fa";
+// import { MdArrowLeft, MdArrowRight } from "react-icons/md";
+import { FaPlus } from "react-icons/fa";
+// import { FaPlus, FaPen, FaTrashAlt } from "react-icons/fa";
 import { BarChartComponent, PieChartComponent, RadarChartComponent } from "./Chart";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';

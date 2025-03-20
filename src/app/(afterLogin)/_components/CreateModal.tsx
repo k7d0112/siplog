@@ -2,7 +2,7 @@
 
 import { Category } from '@/app/_types/Category';
 import { CreateModalProps } from '@/app/_types/CreateModalProps';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';
 import { createPortal } from 'react-dom';
 

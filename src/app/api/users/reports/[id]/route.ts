@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { supabase } from '@/app/_libs/supabase'
-import { UpdateReportRequestBody } from '@/app/_types/Report';
+// import { supabase } from '@/app/_libs/supabase'
+// import { UpdateReportRequestBody } from '@/app/_types/Report';
 
 const prisma = new PrismaClient();
 
@@ -16,18 +16,18 @@ export const GET = async (
       where: {
         id: parseInt(id),
       },
-      include: {
-        reportCategories: {
-          include: {
-            category: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-      },
+      // include: {
+      //   reportCategories: {
+      //     include: {
+      //       category: {
+      //         select: {
+      //           id: true,
+      //           name: true,
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
     });
 
     return NextResponse.json({ status: 'ok', report: userReport }, { status: 200 });
@@ -44,7 +44,7 @@ export const PUT = async (
   { params }: { params: { id: string }}
 ) => {
   const { id } = params;
-  const { title, content, reportCategories }: UpdateReportRequestBody = await request.json();
+  const { title, content } = await request.json();
   try {
     const updateUserReport = await prisma.report.update({
       where: {
@@ -57,21 +57,21 @@ export const PUT = async (
     });
 
     // 中間テーブルのデータを削除
-    await prisma.reportCategory.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
+    // await prisma.reportCategory.delete({
+    //   where: {
+    //     id: parseInt(id),
+    //   },
+    // });
 
     // レポートとカテゴリーの中間テーブルのレコードを生成
-    for ( const category of reportCategories ) {
-      await prisma.reportCategory.create({
-        data: {
-          reportId: updateUserReport.id,
-          categoryId: category.category.id,
-        },
-      });
-    }
+    // for ( const category of reportCategories ) {
+    //   await prisma.reportCategory.create({
+    //     data: {
+    //       reportId: updateUserReport.id,
+    //       categoryId: category.category.id,
+    //     },
+    //   });
+    // }
 
     return NextResponse.json({ status: 'ok' }, { status: 200 });
   } catch ( error ) {

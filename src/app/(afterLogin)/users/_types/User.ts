@@ -1,4 +1,4 @@
-import { UserPost } from "@/app/_types/User"
+import { UserPost } from "@/app/_types/Post"
 
 // ユーザーマイページのユーザー情報取得時の型
 export type GetUserInfo = {

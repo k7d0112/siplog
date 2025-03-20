@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PrismaClient } from '@prisma/client'
-import { supabase } from '@/app/_libs/supabase'
-import { UpdatePostRequestBody } from '@/app/_types/Post';
+// import { supabase } from '@/app/_libs/supabase'
+// import { UpdatePostRequestBody } from '@/app/_types/Post';
 
 const prisma = new PrismaClient();
 

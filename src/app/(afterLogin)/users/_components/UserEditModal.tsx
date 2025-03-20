@@ -1,6 +1,6 @@
 'use client'
 
-import react, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { supabase } from '@/app/_libs/supabase';
 import { UserEditModalProps } from '../_types/User';
 import { v4 as uuidv4 } from 'uuid'  // 固有IDを生成するライブラリ
