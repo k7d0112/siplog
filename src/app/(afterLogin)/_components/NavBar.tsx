@@ -38,7 +38,7 @@ export const NavBar = () => {
         }
         const { categories } = await res.json();
         setAllCategories(categories);
-  console.log(allCategories)
+        console.log(categories);
       } catch (error) {
         console.error('カテゴリー取得中にエラーが発生しました:', error);
       }

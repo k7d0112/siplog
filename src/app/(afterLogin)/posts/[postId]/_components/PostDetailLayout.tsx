@@ -16,33 +16,32 @@ import { GetComment } from "@/app/_types/Comments";
 import { supabase } from "@/app/_libs/supabase";
 
 export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
-  const { session, token, isLoading } = useSupabaseSession();
+  const { session, token } = useSupabaseSession();
   const [comments, setComments] = useState<GetComment[]>([]);
   const [inputText, setInputText] = useState<string>('');
-
-  // ページ読み込み時にコメントを取得
-  const fetchComments = async () => {
-    if (!token) return;
-    try {
-      const res = await fetch(`/api/comments/${post.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'コメントの取得に失敗しました。');
-      }
-      const { comments } = await res.json();
-      setComments(comments);
-    } catch (error) {
-      console.error('コメントの取得中にエラーが発生しました', error);
-    }
-  }
 
   // コメントのリアルタイム取得
   useEffect(() => {
     if (!token) return;
+    // ページ読み込み時にコメントを取得
+    const fetchComments = async () => {
+      if (!token) return;
+      try {
+        const res = await fetch(`/api/comments/${post.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.message || 'コメントの取得に失敗しました。');
+        }
+        const { comments } = await res.json();
+        setComments(comments);
+      } catch (error) {
+        console.error('コメントの取得中にエラーが発生しました', error);
+      }
+    }
     fetchComments();
 
     const commentChannel = supabase
@@ -50,7 +49,7 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'Comments' },
-        async (payload) => {
+        async () => {
           await fetchComments();
           // const newRecord = payload.new as Comments;
           // if (newRecord.postId === post.id) {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react';
-import { FormErrors, ReportModalProps } from '../_types/Report';
+import { FormErrors, ReportModalProps, ReportPayload, ReportPayloadBase } from '../_types/Report';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';
 
 export const ReportModal: React.FC<ReportModalProps> = ({ onClose, onReportCreated }) => {
@@ -25,7 +25,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ onClose, onReportCreat
   const [errors, setErrors] = useState<FormErrors>({});
 
   // userId を session から取得
-  const { session, token } = useSupabaseSession();
+  const { session } = useSupabaseSession();
   const userId = session?.user.id;
   if (!userId) {
     return <p>ログイン情報が取得できませんでした。</p>;
@@ -85,26 +85,54 @@ export const ReportModal: React.FC<ReportModalProps> = ({ onClose, onReportCreat
     setErrors({});
 
     // 各数値フィールドは trim した上で parseInt を実施する
-    const payload: any = {
+    const basePayload: Omit<ReportPayloadBase, 'type'> = {
       userId,
-      type: reportType,
       title: title.trim(),
       content: content.trim(),
       cost: parseInt(cost.trim(), 10),
-      ...(reportType === 'HAND_DRIP'
-        ? {
-            bitterness: parseInt(bitterness.trim(), 10),
-            sweetness: parseInt(sweetness.trim(), 10),
-            aroma: parseInt(aroma.trim(), 10),
-            acidity: parseInt(acidity.trim(), 10),
-            aftertaste: parseInt(aftertaste.trim(), 10),
-            roastLevel: parseInt(roastLevel.trim(), 10),
-            beanOrigin: beanOrigin.trim(),
-          }
-        : {
-            cafeName: cafeName.trim(),
-          }),
     };
+
+    let payload: ReportPayload;
+
+    if (reportType === 'HAND_DRIP') {
+      payload = {
+        ...basePayload,
+        type: 'HAND_DRIP',
+        bitterness: parseInt(bitterness.trim(), 10),
+        sweetness: parseInt(sweetness.trim(), 10),
+        aroma: parseInt(aroma.trim(), 10),
+        acidity: parseInt(acidity.trim(), 10),
+        aftertaste: parseInt(aftertaste.trim(), 10),
+        roastLevel: parseInt(roastLevel.trim(), 10),
+        beanOrigin: beanOrigin.trim(),
+      };
+    } else {
+      payload = {
+        ...basePayload,
+        type: 'CAFE',
+        cafeName: cafeName.trim(),
+      };
+    }
+    // const payload = {
+    //   userId,
+    //   type: reportType,
+    //   title: title.trim(),
+    //   content: content.trim(),
+    //   cost: parseInt(cost.trim(), 10),
+    //   ...(reportType === 'HAND_DRIP'
+    //     ? {
+    //         bitterness: parseInt(bitterness.trim(), 10),
+    //         sweetness: parseInt(sweetness.trim(), 10),
+    //         aroma: parseInt(aroma.trim(), 10),
+    //         acidity: parseInt(acidity.trim(), 10),
+    //         aftertaste: parseInt(aftertaste.trim(), 10),
+    //         roastLevel: parseInt(roastLevel.trim(), 10),
+    //         beanOrigin: beanOrigin.trim(),
+    //       }
+    //     : {
+    //         cafeName: cafeName.trim(),
+    //       }),
+    // };
 
     // デバッグ用に payload を出力（必要に応じて削除）
     console.log("Payload:", payload);

@@ -38,11 +38,11 @@ export type CreateReportRequestBody = {
 }
 
 // レポート更新時のデータ型
-export type UpdateReportRequestBody = {
-  // title: 'ハンドドリップ' | 'カフェ',
-  // content: string,
-  // reportCategories: { category: Category }[],
-}
+// export type UpdateReportRequestBody = {
+//   title: 'ハンドドリップ' | 'カフェ',
+//   content: string,
+//   reportCategories: { category: Category }[],
+// }
 
 // useSWRのmutateで取得する際のデータ型
 export type MutateReport = {

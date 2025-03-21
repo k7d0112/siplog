@@ -13,17 +13,20 @@ type BarChartProps = {
 // 棒グラフ(ハンドドリップ、カフェの費用算出用)
 // レポートの入力内容から月毎に費用を算出し、今月分と過去2ヶ月の合計3ヶ月分をまとめて表示
 export const BarChartComponent: React.FC<BarChartProps> = ({ data }) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   if (!data || data.length === 0) {
     return <p className='text-center mt-40'>レポートは登録されていません</p>;
   }
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const handleChartClick = (state: any) => {
-    if (state && state.activeTooltipIndex !== undefined) {
-      setActiveIndex(state.activeTooltipIndex);
-    } else {
-      setActiveIndex(null);
+  const handleChartClick = (state: unknown) => {
+    if ( typeof state === 'object' && state !== null) {
+      const s = state as { activeTooltipIndex?: number };
+      if (s.activeTooltipIndex !== undefined) {
+        setActiveIndex(s.activeTooltipIndex);
+      } else {
+        setActiveIndex(null);
+      }
     }
   };
 
@@ -147,8 +150,13 @@ export const PieChartComponent: React.FC<PieChartProps> = ({ data, title }) => {
   );
 }
 
+type RadarData = {
+  subject: string,
+  value: number,
+}
+
 type RadarChartProps = {
-  data?: any[],
+  data?: RadarData[],
 }
 // レーダーチャート(ハンドドリップの香りや苦味等の評価を反映、カフェの場合はなし)
 // 項目は6項目(香り、苦味、甘み、酸味、あと味、焙煎度)

@@ -22,7 +22,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>('');
 
   // ポータル先がクライアントで利用できるかどうかを確認するためのstate(モーダルのz-indexを管理する)
-  const [mounted, setMounted] = useState<boolean>(false);
+  // const [mounted, setMounted] = useState<boolean>(false);
 
   // カスタムフックからsupabase.authのユーザー情報を取得
   const { token } = useSupabaseSession();
@@ -79,8 +79,12 @@ export const CreateModal: React.FC<CreateModalProps> = ({
         return;
       }
       handleModalClose();
-    } catch  (error: any) {
-      setPostErrorMessage(error.message || '投稿作成時にエラーが発生しました');
+    } catch  (error) {
+      if (error instanceof Error) {
+        setPostErrorMessage(error.message || '投稿作成時にエラーが発生しました');
+      } else {
+        setPostErrorMessage('投稿作成時にエラーが発生しました');
+      }
     }
   };
 
@@ -103,8 +107,12 @@ export const CreateModal: React.FC<CreateModalProps> = ({
         return;
       }
       handleModalClose();
-    } catch (error: any) {
-      setCategoryErrorMessage(error.message || 'カテゴリー作成時にエラーが発生しました');
+    } catch (error) {
+      if (error instanceof Error) {
+        setCategoryErrorMessage(error.message || 'カテゴリー作成時にエラーが発生しました');
+      } else {
+        setPostErrorMessage('カテゴリー作成時にエラーが発生しました');
+      }
     }
   }
 

@@ -84,7 +84,7 @@ export const GET = async ( request: NextRequest ) => {
 }
 
 // 記事新規作成用APIエンドポイント
-export const POST = async ( request: NextRequest, context: any) => {
+export const POST = async ( request: NextRequest ) => {
   try {
     const body = await request.json();
     const { postUserId, content, categories }: CreatePostRequestBody = body;
