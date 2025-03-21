@@ -6,10 +6,7 @@ import { CreateCommentRequestBody } from '@/app/_types/Comments';
 const prisma = new PrismaClient();
 
 // コメント作成用APIエンドポイント
-export const POST = async(
-  request: NextRequest,
-  { params }: { params: { postId: string }}
-) => {
+export const POST = async( request: NextRequest ) => {
   try {
     const body = await request.json();
     const { text, postId, userId }: CreateCommentRequestBody = body;

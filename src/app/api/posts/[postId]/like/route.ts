@@ -53,8 +53,12 @@ export const POST = async (
     });
 
     return NextResponse.json({ message: 'いいね完了しました', goodAmount: totalGoods }, { status: 200 });
-  } catch (error: any) {
-    console.error('高評価処理エラー:', error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error('高評価処理エラー:', error.message);
+    } else {
+      console.error('高評価処理エラー');
+    }
     return NextResponse.json({ message: '高評価の処理に失敗しました:' }, { status: 500 });
   }
 }
@@ -107,8 +111,11 @@ export const DELETE = async (
     });
 
     return NextResponse.json({ message: 'いいねを取り消しました', goodAmount: totalGoods });
-  } catch (error: any) {
-    console.error(error);
-    return NextResponse.json({ message: `いいねの取り消しに失敗しました: ${error.message}` }, { status: 500 });
+  } catch (error) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: `いいねの取り消しに失敗しました: ${error.message}` }, { status: 500 });
+    } else {
+      return NextResponse.json({ message: 'いいねの取り消しに失敗しました' }, { status: 500 });
+    }
   }
 }

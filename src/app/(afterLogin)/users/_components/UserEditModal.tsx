@@ -109,7 +109,11 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
       // モーダルを閉じる
       onClose();
     } catch (error) {
-      console.error('ユーザー情報の更新中にエラーが発生しました:', error);
+      if (error instanceof Error) {
+        console.error('ユーザー情報の更新中にエラーが発生しました:', error.message);
+      } else {
+        console.log('ユーザー情報の更新中にエラーが発生しました');
+      }
     }
   };
 

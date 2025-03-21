@@ -46,7 +46,7 @@ export const PUT = async (
   const { id } = params;
   const { title, content } = await request.json();
   try {
-    const updateUserReport = await prisma.report.update({
+    await prisma.report.update({
       where: {
         id: parseInt(id),
       },

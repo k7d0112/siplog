@@ -10,7 +10,8 @@ import { BiSolidReport } from "react-icons/bi";
 export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, postId, token, isOwnPost }) => {
   const [count, setCount] = useState<number>(amount);
   const [liked, setLiked] = useState<boolean>(status);
-  const [comment, setComment] = useState<boolean>(status);
+  const [comment] = useState<boolean>(status);
+  // const [comment, setComment] = useState<boolean>(status);
   const [loading, setLoading] = useState<boolean>(false);
   // const { token } = useSupabaseSession();
 
@@ -50,10 +51,11 @@ export const AmountButton: React.FC<GoodAmountProps> = ({ type, status, amount, 
       });
 
       if (!res.ok) {
-        let errorData: any;
+        let errorData;
         try {
           errorData = await res.json();
         } catch (err) {
+          console.log(err);
           errorData = {};
         }
         const message = errorData.message || '操作に失敗しました';

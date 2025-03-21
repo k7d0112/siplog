@@ -18,3 +18,31 @@ export type FormErrors = {
   beanOrigin?: string,
   cafeName?: string,
 }
+
+type ReportType = 'HAND_DRIP' | 'CAFE';
+
+export type ReportPayloadBase = {
+  userId: string,
+  type: ReportType,
+  title: string,
+  content: string,
+  cost: number,
+}
+
+type HandDripPayload = ReportPayloadBase & {
+  type: 'HAND_DRIP',
+  bitterness: number,
+  sweetness: number,
+  aroma: number,
+  acidity: number,
+  aftertaste: number,
+  roastLevel: number,
+  beanOrigin: string,
+}
+
+type CafePayload = ReportPayloadBase & {
+  type: 'CAFE',
+  cafeName: string,
+}
+
+export type ReportPayload = HandDripPayload | CafePayload;

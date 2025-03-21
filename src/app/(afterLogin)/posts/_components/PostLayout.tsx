@@ -44,8 +44,10 @@ export const PostLayout = () => {
         }
         const { posts } = await res.json();
         setAllPosts(posts);
-      } catch (error: any) {
-        console.error('投稿一覧取得中にエラーが発生しました:', error);
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error('投稿一覧取得中にエラーが発生しました:', error);
+        }
         setError('投稿一覧の取得に失敗しました');
       } finally {
         setLoading(false);

@@ -5,7 +5,7 @@ import { CreateCategoriesRequestBody } from '@/app/_types/Category';
 const prisma = new PrismaClient();
 
 // カテゴリー一覧取得用APIエンドポイント
-export const GET = async ( request: NextRequest ) => {
+export const GET = async () => {
   try {
     const categories = await prisma.categories.findMany({
       select: {
@@ -29,7 +29,7 @@ export const POST = async ( request: NextRequest ) => {
   try {
     const body = await request.json();
     const { name }: CreateCategoriesRequestBody = body;
-    const newCategory = await prisma.categories.create({
+    await prisma.categories.create({
       data: {
         name,
       },

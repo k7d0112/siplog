@@ -26,7 +26,7 @@ export const useGetImageUrl = (
 
     // publicUrlが取得できない場合もデフォルト画像を格納
     setImageUrl(publicUrl || defaultImage);
-  }, [thumbnailImageKey]);
+  }, [thumbnailImageKey, bucketName, defaultImage]);
 
   return {
     imageUrl,

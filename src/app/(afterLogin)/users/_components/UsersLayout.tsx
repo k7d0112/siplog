@@ -44,7 +44,7 @@ export const UsersLayout: React.FC = () => {
           const errorData = await res.json();
           throw new Error(errorData.status || 'APIエラー');
         }
-        const { status, UserProfile } = await res.json();
+        const { UserProfile } = await res.json();
         // console.log('取得したデータ', { status, UserProfile });
         // ここでUserProfileをsetUserに格納
         setUser(UserProfile);
