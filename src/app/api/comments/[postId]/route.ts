@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 // コメント一覧取得用APIエンドポイント
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { postId: number }}
+  { params }: { params: { postId: string }}
 ) => {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
