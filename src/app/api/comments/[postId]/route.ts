@@ -6,10 +6,10 @@ import { supabase } from '@/app/_libs/supabase';
 const prisma = new PrismaClient();
 
 // コメント一覧取得用APIエンドポイント
-export const GET = async (
+export async function GET(
   request: NextRequest,
-  { params }: { params: {postId: string } },
-) => {
+  context: { params: { [key: string]: string } }
+) {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
     if (!token) {
@@ -21,7 +21,7 @@ export const GET = async (
       return NextResponse.json({ message: 'ユーザー認証に失敗しました' }, { status: 401 });
     }
 
-    const postIdNumber = Number(params.postId);
+    const postIdNumber = Number(context.params);
     if (isNaN(postIdNumber)) {
       return NextResponse.json({ message: '不正な投稿IDです' }, { status: 400 });
     }
