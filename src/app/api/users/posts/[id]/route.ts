@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 // ログイン済ユーザーのマイページでの投稿詳細取得用APIエンドポイント
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string }}
+  { params }: { params: Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
   try {
     const userPost = await prisma.post.findUnique({
       where: {
@@ -128,9 +128,9 @@ export const GET = async (
 // 投稿削除用APIエンドポイント
 export const DELETE = async (
   request: NextRequest,
-  { params } : { params: { id: string }}
+  { params } : { params: Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
   try {
     await prisma.post.delete({
       where: {

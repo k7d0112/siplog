@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export const POST = async (
   request: NextRequest,
-  { params }: { params: { postId: string } }
+  { params }: { params: Promise<{ postId: string }> }
 ) => {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
@@ -21,7 +21,8 @@ export const POST = async (
       return NextResponse.json({ message: 'ユーザー認証に失敗しました' }, { status: 401});
     }
 
-    const postIdNumber = Number(params.postId);
+    const { postId } = await params;
+    const postIdNumber = Number(postId);
     if (isNaN(postIdNumber)) {
       return NextResponse.json({ message: '不正な投稿IDです' }, { status: 400 });
     }
@@ -65,7 +66,7 @@ export const POST = async (
 
 export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { postId: string }}
+  { params }: { params: Promise<{ postId: string }>}
 ) => {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
@@ -78,7 +79,8 @@ export const DELETE = async (
       return NextResponse.json({ message: 'ユーザー認証に失敗しました' }, { status: 401 });
     }
 
-    const postIdNum = Number(params.postId);
+    const { postId } = await params;
+    const postIdNum = Number(postId);
     if (isNaN(postIdNum)) {
       return NextResponse.json({ message: '不正な投稿IDです' }, { status: 400 });
     }
