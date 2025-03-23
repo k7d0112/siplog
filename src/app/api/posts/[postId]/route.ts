@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 
 export const GET = async (
   request: NextRequest,
-  { params }: { params: {postId: string } },
+  { params }: { params: Promise<{postId: string }> },
 ) => {
-  const { postId } = params;
+  const { postId } = await params;
   try {
     const post = await prisma.post.findUnique({
       where: {
@@ -96,9 +96,9 @@ export const GET = async (
 // 記事更新用のAPIエンドポイント
 export const PUT = async (
   request: NextRequest,
-  { params }: { params: {id: string } },
+  { params }: { params: Promise<{id: string }> },
 ) => {
-  const { id } = params;
+  const { id } = await params;
   const { postUserId, content, goodAmount, commentAmount, categories }: UpdatePostRequestBody = await request.json();
 
   try {
@@ -142,9 +142,9 @@ export const PUT = async (
 // 記事削除用APIエンドポイント
 export const DELETE = async (
   request: NextRequest,
-  { params }: { params: { id: string }}
+  { params }: { params: Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     await prisma.post.delete({

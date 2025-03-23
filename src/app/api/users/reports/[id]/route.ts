@@ -8,9 +8,9 @@ const prisma = new PrismaClient();
 // ログインユーザー時のレポート詳細取得用API
 export const GET = async (
   request: NextRequest,
-  { params }: { params: { id: string }}
+  { params }: { params: Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
   try {
     const userReport = await prisma.report.findUnique({
       where: {
@@ -41,9 +41,9 @@ export const GET = async (
 // ログイン済ユーザーのレポート詳細更新用APIエンドポイント
 export const PUT = async (
   request: NextRequest,
-  { params }: { params: { id: string }}
+  { params }: { params: Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
   const { title, content } = await request.json();
   try {
     await prisma.report.update({
@@ -83,10 +83,10 @@ export const PUT = async (
 
 // ログイン済ユーザーのレポート削除用APIエンドポイント
 export const DELETE = async (
-  request: NextRequest,
-  { params }: { params : { id: string }}
+  // request: NextRequest,
+  { params }: { params : Promise<{ id: string }>}
 ) => {
-  const { id } = params;
+  const { id } = await params;
   try {
     await prisma.report.delete({
       where: {
