@@ -83,7 +83,7 @@ export const PUT = async (
 
 // ログイン済ユーザーのレポート削除用APIエンドポイント
 export const DELETE = async (
-  // request: NextRequest,
+  request: NextRequest,
   { params }: { params : Promise<{ id: string }>}
 ) => {
   const { id } = await params;
