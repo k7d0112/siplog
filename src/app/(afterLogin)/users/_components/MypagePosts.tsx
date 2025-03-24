@@ -69,6 +69,7 @@ export const MypagePosts = () => {
   return(
     <>
       <div className='bg-mainBgGray'>
+      {/* <div className='bg-mainBgGray'> */}
         {userPosts.length > 0 ? (
           userPosts.map((userPost) => {
             const isOwnPost = (userPost.postUserId === session?.user.id);
@@ -120,7 +121,7 @@ export const MypagePosts = () => {
             )
           })
         ) : (
-          <p className='flex justify-center mt-20'>投稿はまだありません</p>
+          <p className='flex justify-center mt-20 mb-'>投稿はまだありません</p>
         )}
 
         {/* 投稿編集用モーダルを定義 */}
