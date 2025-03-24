@@ -18,7 +18,7 @@ export const Accordion = () => {
             >
               Q.
             </span>
-            テキストテキストテキストテキスト
+            質問例はここに記載されます。
           </h1>
           <button
             className='absolute top-0 right-0 w-7 h-10'
@@ -33,7 +33,10 @@ export const Accordion = () => {
         </div>
         <div className={`bg-white pl-7 pr-2 relative transition-all overflow-hidden ${isOpen ? 'max-h-[500px] py-2' : 'max-h-0 py-0'}`}>
           <span className='text-mainBlue font-noto text-lg font-medium absolute top-[5.5px] left-[10px]'>A.</span>
-          <p>テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキステキストテキスト</p>
+          <p>
+            頂いた質問の中から他のユーザー様にも役立ちそうな質問をここで閲覧できるようにしておきます。<br/>
+            こちらも参考にしてください！
+          </p>
         </div>
       </div>
     </>
