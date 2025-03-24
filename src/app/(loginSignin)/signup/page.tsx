@@ -21,7 +21,7 @@ export default function Page () {
       password,
       options: {
         // 本番環境では、メールアドレス認証後に該当ページにリダイレクトさせる
-        emailRedirectTo: `http://localhost:3000/users`,
+        emailRedirectTo: `https://siplog.vercel.app/users`,
         data: {
           userName: userName,
         },
@@ -35,7 +35,7 @@ export default function Page () {
       setUserName('')
       setEmail('')
       setPassword('')
-      alert('確認メールを送信しました。');
+      alert('確認メールを送信しました。メールアドレス認証後、アプリ内ページに移動します。');
     }
 
     // APIエンドポイントを呼び出して、supabaseのauth.userの情報をUserテーブルに保存
@@ -56,7 +56,7 @@ export default function Page () {
     }
 
     // テスト環境のみメールアドレス認証前にユーザーページに遷移
-    router.push('/users');
+    // router.push('/users');
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

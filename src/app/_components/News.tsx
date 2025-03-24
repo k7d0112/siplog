@@ -51,7 +51,7 @@ export const News = () => {
           {posts?.map((post, index) => (
             <li
               key={index}
-              className='border-b border-mainBgGray pb-2 mb-3'
+              className='border-b border-mainBgGray pb-2 mb-3 cursor-pointer'
               onClick={() => handleOpen(post)}
             >
               <div className='flex items-center'>
