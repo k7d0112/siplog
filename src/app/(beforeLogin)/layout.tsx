@@ -35,6 +35,7 @@ const barlow = Barlow({
 export const metadata: Metadata = {
   title: "Sip Log",
   description: "Sip Logでコーヒー体験を記録してコーヒー好きとシェアしませんか？",
+  keywords: "siplog coffee コーヒー"
 };
 
 export default function RootLayout({
