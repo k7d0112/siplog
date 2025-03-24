@@ -5,13 +5,13 @@ import Image from 'next/image';
 import { useState } from 'react'
 import { InputArea } from '../_components/Input';
 import { FormButton } from '../_components/Button';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 export default function Page () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  const router = useRouter();
+  // const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
