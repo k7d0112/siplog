@@ -22,7 +22,6 @@ export default function Page() {
       </p>
       <div className='mt-5'>
         <Accordion/>
-        <Accordion/>
       </div>
     </div>
   );
