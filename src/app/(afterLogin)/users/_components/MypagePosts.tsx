@@ -9,7 +9,7 @@ import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useEffect, useState } from "react";
 import { UserPost } from "@/app/_types/Post";
 import { UserPostEditModal } from "./UserPostEditModal";
-import Skeleton from "react-loading-skeleton";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
 export const MypagePosts = () => {
@@ -157,21 +157,23 @@ export const MypagePosts = () => {
                 key={index}
                 className='py-4 border-b border-lineGray'
               >
-                <div className='flex items-center justify-between'>
-                  <Skeleton width={60} height={20} />
-                  <Skeleton circle width={16} height={16} />
-                </div>
-                <div className='mt-2.5'>
-                  <Skeleton height={100} />
-                </div>
-                <div className='mt-2.5 flex items-center gap-x-2.5'>
-                  <Skeleton width={80} height={20} />
-                  <Skeleton width={80} height={20} />
-                </div>
-                <div className='mt-2.5 flex items-center gap-x-2.5'>
-                  <Skeleton width={30} height={20} />
-                  <Skeleton width={30} height={20} />
-                </div>
+                <SkeletonTheme baseColor="#a3a3a3" highlightColor="#cfcfcf">
+                  <div className='flex items-center justify-between'>
+                    <Skeleton width={60} height={20} />
+                    <Skeleton circle width={16} height={16} />
+                  </div>
+                  <div className='mt-2.5'>
+                    <Skeleton height={100} />
+                  </div>
+                  <div className='mt-2.5 flex items-center gap-x-2.5'>
+                    <Skeleton width={80} height={20} />
+                    <Skeleton width={80} height={20} />
+                  </div>
+                  <div className='mt-2.5 flex items-center gap-x-2.5'>
+                    <Skeleton width={30} height={20} />
+                    <Skeleton width={30} height={20} />
+                  </div>
+                </SkeletonTheme>
               </div>
             ))}
           </div>
