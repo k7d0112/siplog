@@ -11,7 +11,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
 }) => {
   // タブの状態管理
   // const [activeTab, setActiveTab] = useState<'post' | 'category'>('post');
-  let activeTab = 'post';
+  const activeTab = 'post';
 
   // 投稿フォーム用のstate
   const [postContent, setPostContent] = useState<string>('');
