@@ -49,7 +49,7 @@ export default function Page() {
     return (
       <div className='px-5 pt-5'>
         <div className='flex items-center justify-between'>
-          <Skeleton circle width={36} height={36} />
+          <Skeleton circle width={20} height={20} />
           <Skeleton width={60} height={20} />
         </div>
         <div className='mt-2.5'>
