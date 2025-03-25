@@ -151,7 +151,30 @@ export const MypagePosts = () => {
             )
           })
         ) : (
-          <p className='flex justify-center mt-20 mb-20'>投稿はまだありません</p>
+          <div className='px-3 pt-4'>
+            {[...Array(3)].map((_, index) => (
+              <div
+                key={index}
+                className='py-4 border-b border-lineGray'
+              >
+                <div className='flex items-center justify-between'>
+                  <Skeleton width={60} height={20} />
+                  <Skeleton circle width={16} height={16} />
+                </div>
+                <div className='mt-2.5'>
+                  <Skeleton height={100} />
+                </div>
+                <div className='mt-2.5 flex items-center gap-x-2.5'>
+                  <Skeleton width={80} height={20} />
+                  <Skeleton width={80} height={20} />
+                </div>
+                <div className='mt-2.5 flex items-center gap-x-2.5'>
+                  <Skeleton width={30} height={20} />
+                  <Skeleton width={30} height={20} />
+                </div>
+              </div>
+            ))}
+          </div>
         )}
 
         {/* 投稿編集用モーダルを定義 */}
