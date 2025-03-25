@@ -14,6 +14,8 @@ import { ReportModal } from './ReportModal';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';
 import { BarChartData, MutateReport, PieChartData, RadarChartData, ReportsResponse } from '@/app/_types/Report';
 import { ReportDetailModal } from './ReportDetailModal';
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export const MypageReports = () => {
   const { token } = useSupabaseSession();
@@ -131,6 +133,8 @@ export const MypageReports = () => {
     }
   }
 
+  const isLoading = (data === undefined);
+
   return(
     <>
       {/* 新規レポート作成用モーダル */}
@@ -150,96 +154,158 @@ export const MypageReports = () => {
       )}
 
       {/* swiperで任意にスライドできるスライドを実装予定 */}
-      <Swiper
+      {isLoading ? (
+        <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
         className='w-[350px] h-[350px] mx-auto shadow-md relative bg-white'
       >
-        <SwiperSlide>
-          <BarChartComponent data={barChartData} />
-        </SwiperSlide>
-        <SwiperSlide>
-          {/* ハンドドリップ用円グラフ */}
-          <PieChartComponent data={pieChartHandDripData} title='ハンドドリップ用グラフ' />
-        </SwiperSlide>
-        <SwiperSlide>
-          {/* カフェ用円グラフ */}
-          <PieChartComponent data={pieChartCafeData} title='カフェ用グラフ' />
-        </SwiperSlide>
-        <SwiperSlide>
-          <RadarChartComponent data={radarChartData} />
-        </SwiperSlide>
+        {[...Array(4)].map((_, index) => (
+          <SwiperSlide key={index}>
+            <div className='flex items-center justify-center w-full h-full'>
+              <Skeleton width={300} height={300} />
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
+      ) : (
+        <>
+          <Swiper
+            modules={[Navigation, Pagination]}
+            spaceBetween={50}
+            slidesPerView={1}
+            navigation
+            pagination={{ clickable: true }}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+            className='w-[350px] h-[350px] mx-auto shadow-md relative bg-white'
+          >
+            <SwiperSlide>
+              <BarChartComponent data={barChartData} />
+            </SwiperSlide>
+            <SwiperSlide>
+              {/* ハンドドリップ用円グラフ */}
+              <PieChartComponent data={pieChartHandDripData} title='ハンドドリップ用グラフ' />
+            </SwiperSlide>
+            <SwiperSlide>
+              {/* カフェ用円グラフ */}
+              <PieChartComponent data={pieChartCafeData} title='カフェ用グラフ' />
+            </SwiperSlide>
+            <SwiperSlide>
+              <RadarChartComponent data={radarChartData} />
+            </SwiperSlide>
+          </Swiper>
 
-      {/* 個人レポートの一覧表示を実装予定 */}
-      <div className='w-full mt-4 mx-auto shadow-md border border-lineGray bg-white'>
-        {/* レポートヘッダー */}
-        <div className='w-full flex items-center justify-between py-2 px-3'>
-          <div className='flex items-center gap-x-1'>
-            <p className='font-noto text-mainBlack font-medium text-xs'>レポート一覧</p>
-            {/* <MdArrowLeft size={25} className='fill-mainBlack' />
-            現在の日付からデフォルトの月を表示し、前後のボタンを押すことで前後の月のレポートを表示で記すようにする
-            <span className='font-noto font-normal text-mainBlack text-xs'>2024/12</span>
-            <MdArrowRight size={25} className='fill-mainBlack' /> */}
-          </div>
-          <div onClick={handleModalOpen} className='cursor-pointer ml-auto'>
-            <FaPlus size={20} className='fill-mainBlue'/>
-          </div>
-        </div>
-        {/* レポート一覧 */}
-        <ul className='border-t border-lineGray'>
-          {data && data.reports && Array.isArray(data.reports) ? (
-            data.reports.map((report) => (
-              <li
-                key={report.id}
-                className='flex items-center justify-between border-b border-lineGray px-3 py-2 cursor-pointer'
-                onClick={() => handleReportClick(report)}
-              >
+          {/* 個人レポート表示エリア */}
+          <div className='w-full mt-4 mx-auto shadow-md border border-lineGray bg-white'>
+            {/* レポートヘッダー */}
+            <div className='w-full flex items-center justify-between py-2 px-3'>
+              <div className='flex items-center gap-x-1'>
+                <p className='font-noto text-mainBlack font-medium text-xs'>レポート一覧</p>
+                {/* <MdArrowLeft size={25} className='fill-mainBlack' />
+                現在の日付からデフォルトの月を表示し、前後のボタンを押すことで前後の月のレポートを表示で記すようにする
+                <span className='font-noto font-normal text-mainBlack text-xs'>2024/12</span>
+                <MdArrowRight size={25} className='fill-mainBlack' /> */}
+              </div>
+              <div onClick={handleModalOpen} className='cursor-pointer ml-auto'>
+                <FaPlus size={20} className='fill-mainBlue'/>
+              </div>
+            </div>
+            {/* レポート一覧 */}
+            <ul className='border-t border-lineGray'>
+              {isLoading ? (
+                <>
+                  {[...Array(3)].map((_, index) => {
+                    <li
+                      key={index}
+                      className='flex items-center justify-between border-b border-lineGray px-3 py-2'
+                    >
+                      <div className='flex items-center gap-x-2'>
+                        <Skeleton width={80} height={16} />
+                        <Skeleton width={50} height={16} />
+                      </div>
+                    </li>
+                  })}
+                </>
+              ) : (
+                data && data.reports && Array.isArray(data.reports) ? (
+                  data.reports.map((report) => (
+                    <li
+                      key={report.id}
+                      className='flex items-center justify-between border-b border-lineGray px-3 py-2 cursor-pointer'
+                      onClick={() => handleReportClick(report)}
+                    >
+                      <div className='flex items-center gap-x-2'>
+                        <span className='font-noto font-normal text-mainBlack text-xs'>
+                          {/* {report.createdAt.substring(0, 10)} */}
+                          {new Date(report.createdAt).toLocaleDateString()}
+                        </span>
+                        <span className='font-noto font-medium text-mainBlue text-xs'>
+                          {report.type === 'CAFE' ? 'カフェ' : 'ハンドドリップ'}
+                        </span>
+                      </div>
+                      {/* <div className='flex items-center gap-x-3'>
+                        <FaPen size={15} className='fill-mainBlue' />
+                        <FaTrashAlt size={15} className='fill-red-600' />
+                      </div> */}
+                    </li>
+                  ))
+                ) : (
+                  <li className='p-3'>レポートはまだ登録されていません。</li>
+                )
+              )}
+              {/* {data && data.reports && Array.isArray(data.reports) ? (
+                data.reports.map((report) => (
+                  <li
+                    key={report.id}
+                    className='flex items-center justify-between border-b border-lineGray px-3 py-2 cursor-pointer'
+                    onClick={() => handleReportClick(report)}
+                  >
+                    <div className='flex items-center gap-x-2'>
+                      <span className='font-noto font-normal text-mainBlack text-xs'>
+                        {report.createdAt.substring(0, 10)}
+                        {new Date(report.createdAt).toLocaleDateString()}
+                      </span>
+                      <span className='font-noto font-medium text-mainBlue text-xs'>
+                        {report.type === 'CAFE' ? 'カフェ' : 'ハンドドリップ'}
+                      </span>
+                    </div>
+                    <div className='flex items-center gap-x-3'>
+                      <FaPen size={15} className='fill-mainBlue' />
+                      <FaTrashAlt size={15} className='fill-red-600' />
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <li className='p-3'>レポートはまだ登録されていません。</li>
+              )} */}
+              {/* <li className='flex items-center justify-between border-b border-lineGray px-3 py-2'>
                 <div className='flex items-center gap-x-2'>
-                  <span className='font-noto font-normal text-mainBlack text-xs'>
-                    {/* {report.createdAt.substring(0, 10)} */}
-                    {new Date(report.createdAt).toLocaleDateString()}
-                  </span>
-                  <span className='font-noto font-medium text-mainBlue text-xs'>
-                    {report.type === 'CAFE' ? 'カフェ' : 'ハンドドリップ'}
-                  </span>
+                  <span className='font-noto font-normal text-mainBlack text-xs'>2024/12/17</span>
+                  <span className='font-noto font-medium text-mainBlue text-xs'>カフェ</span>
                 </div>
-                {/* <div className='flex items-center gap-x-3'>
+                <div className='flex items-center gap-x-3'>
                   <FaPen size={15} className='fill-mainBlue' />
                   <FaTrashAlt size={15} className='fill-red-600' />
-                </div> */}
+                </div>
               </li>
-            ))
-          ) : (
-            <li className='p-3'>レポートはまだ登録されていません。</li>
-          )}
-          {/* <li className='flex items-center justify-between border-b border-lineGray px-3 py-2'>
-            <div className='flex items-center gap-x-2'>
-              <span className='font-noto font-normal text-mainBlack text-xs'>2024/12/17</span>
-              <span className='font-noto font-medium text-mainBlue text-xs'>カフェ</span>
-            </div>
-            <div className='flex items-center gap-x-3'>
-              <FaPen size={15} className='fill-mainBlue' />
-              <FaTrashAlt size={15} className='fill-red-600' />
-            </div>
-          </li>
-          <li className='flex items-center justify-between border-b border-lineGray px-3 py-2'>
-            <div className='flex items-center gap-x-2'>
-              <span className='font-noto font-normal text-mainBlack text-xs'>2024/12/17</span>
-              <span className='font-noto font-medium text-mainBlue text-xs'>カフェ</span>
-            </div>
-            <div className='flex items-center gap-x-3'>
-              <FaPen size={15} className='fill-mainBlue' />
-              <FaTrashAlt size={15} className='fill-red-600' />
-            </div>
-          </li> */}
-        </ul>
-      </div>
+              <li className='flex items-center justify-between border-b border-lineGray px-3 py-2'>
+                <div className='flex items-center gap-x-2'>
+                  <span className='font-noto font-normal text-mainBlack text-xs'>2024/12/17</span>
+                  <span className='font-noto font-medium text-mainBlue text-xs'>カフェ</span>
+                </div>
+                <div className='flex items-center gap-x-3'>
+                  <FaPen size={15} className='fill-mainBlue' />
+                  <FaTrashAlt size={15} className='fill-red-600' />
+                </div>
+              </li> */}
+            </ul>
+          </div>
+        </>
+      )}
     </>
   );
 }

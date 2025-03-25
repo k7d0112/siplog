@@ -11,6 +11,8 @@ import { TabComponent } from './TabComponent';
 import { GetUserInfo } from '../_types/User';
 import { useSupabaseSession } from '@/app/_hooks/useSupabaseSession';
 import { UserEditModal } from './UserEditModal';
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export const UsersLayout: React.FC = () => {
   const [isToggle, setIsToggle] = useState<boolean>(false);
@@ -126,10 +128,92 @@ export const UsersLayout: React.FC = () => {
           />
         </div>
       ) : (
-        <p>Loading...</p>
+        <>
+          <div className='flex flex-col'>
+            <div className='p-5 bg-white'>
+              <div className='flex justify-between items-start gap-x-2'>
+                <div className='flex items-center gap-x-2'>
+                  <Skeleton circle width={36} height={36} />
+                  <Skeleton width={100} height={20} />
+                </div>
+                <Skeleton width={60} height={20} />
+              </div>
+              <div className='mt-2.5'>
+                <Skeleton height={60} />
+              </div>
+            </div>
+          </div>
+          <div className='flex'>
+            <Skeleton height={40} />
+            <Skeleton height={40} />
+          </div>
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className='py-4 border-b border-lineGray'
+            >
+              <div className='flex items-center justify-between'>
+                <Skeleton width={60} height={20} />
+                <Skeleton circle width={16} height={16} />
+              </div>
+              <div className='mt-2.5'>
+                <Skeleton height={100} />
+              </div>
+              <div className='mt-2.5 flex items-center gap-x-2.5'>
+                <Skeleton width={80} height={20} />
+                <Skeleton width={80} height={20} />
+              </div>
+              <div className='mt-2.5 flex items-center gap-x-2.5'>
+                <Skeleton width={30} height={20} />
+                <Skeleton width={30} height={20} />
+              </div>
+            </div>
+          ))}
+        </>
       )
     ) : (
-      <p>Loading...</p>
+      <>
+        <div className='flex flex-col'>
+          <div className='p-5 bg-white'>
+            <div className='flex justify-between items-start gap-x-2'>
+              <div className='flex items-center gap-x-2'>
+                <Skeleton circle width={36} height={36} />
+                <Skeleton width={100} height={20} />
+              </div>
+              <Skeleton width={60} height={20} />
+            </div>
+            <div className='mt-2.5'>
+              <Skeleton height={60} />
+            </div>
+          </div>
+        </div>
+        <div className='flex'>
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+        </div>
+        {[...Array(3)].map((_, index) => (
+          <div
+            key={index}
+            className='py-4 border-b border-lineGray'
+          >
+            <div className='flex items-center justify-between'>
+              <Skeleton width={60} height={20} />
+              <Skeleton circle width={16} height={16} />
+            </div>
+            <div className='mt-2.5'>
+              <Skeleton height={100} />
+            </div>
+            <div className='mt-2.5 flex items-center gap-x-2.5'>
+              <Skeleton width={80} height={20} />
+              <Skeleton width={80} height={20} />
+            </div>
+            <div className='mt-2.5 flex items-center gap-x-2.5'>
+              <Skeleton width={30} height={20} />
+              <Skeleton width={30} height={20} />
+            </div>
+          </div>
+        ))}
+      </>
     )
   );
 }

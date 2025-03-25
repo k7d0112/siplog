@@ -96,7 +96,7 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
 
   return(
     <div
-      className='px-5 pt-5'
+      className='px-5 pt-5 bg-mainBgGray'
     >
       <div
         className='flex items-center justify-between'

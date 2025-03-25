@@ -12,7 +12,7 @@ export const MypageTextArea: React.FC<MyPageTextAreaProps> = ({ content }) => {
   }
 
   return(
-    <div className='p-2 rounded bg-white shadow-md'>
+    <div className='p-2 rounded bg-white shadow-md border border-mainBgGray'>
       <button
         onClick={toggleText}
       >
