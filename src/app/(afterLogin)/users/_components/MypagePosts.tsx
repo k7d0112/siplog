@@ -153,11 +153,11 @@ export const MypagePosts = () => {
         ) : (
           <div className='px-3 pt-4'>
             {[...Array(3)].map((_, index) => (
-              <SkeletonTheme baseColor="#a3a3a3" highlightColor="#cfcfcf">
-                <div
-                  key={index}
-                  className='py-4 border-b border-lineGray'
-                >
+              <div
+                key={index}
+                className='py-4 border-b border-lineGray'
+              >
+                <SkeletonTheme baseColor="#a3a3a3" highlightColor="#cfcfcf">
                   <div className='flex items-center justify-between'>
                     <Skeleton width={60} height={20} />
                     <Skeleton circle width={16} height={16} />
@@ -173,8 +173,8 @@ export const MypagePosts = () => {
                     <Skeleton width={30} height={20} />
                     <Skeleton width={30} height={20} />
                   </div>
-                </div>
-              </SkeletonTheme>
+                </SkeletonTheme>
+              </div>
             ))}
           </div>
         )}
