@@ -10,7 +10,8 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   isOpen, onClose, userId, allCategories
 }) => {
   // タブの状態管理
-  const [activeTab, setActiveTab] = useState<'post' | 'category'>('post');
+  // const [activeTab, setActiveTab] = useState<'post' | 'category'>('post');
+  let activeTab = 'post';
 
   // 投稿フォーム用のstate
   const [postContent, setPostContent] = useState<string>('');
@@ -18,8 +19,8 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   const [postErrorMessage, setPostErrorMessage] = useState<string>('');
 
   // カテゴリーフォーム用のstate
-  const [newCategoryName, setNewCategoryName] = useState<string>('');
-  const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>('');
+  // const [newCategoryName, setNewCategoryName] = useState<string>('');
+  // const [categoryErrorMessage, setCategoryErrorMessage] = useState<string>('');
 
   // ポータル先がクライアントで利用できるかどうかを確認するためのstate(モーダルのz-indexを管理する)
   // const [mounted, setMounted] = useState<boolean>(false);
@@ -32,9 +33,9 @@ export const CreateModal: React.FC<CreateModalProps> = ({
     setPostContent('');
     setSelectedCategories([]);
     setPostErrorMessage('');
-    setNewCategoryName('');
-    setCategoryErrorMessage('');
-    setActiveTab('post');
+    // setNewCategoryName('');
+    // setCategoryErrorMessage('');
+    // setActiveTab('post');
     onClose();
   };
 
@@ -89,32 +90,32 @@ export const CreateModal: React.FC<CreateModalProps> = ({
   };
 
   // カテゴリー作成フォーム送信
-  const handleSubmitCategory = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setCategoryErrorMessage('');
+  // const handleSubmitCategory = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   setCategoryErrorMessage('');
 
-    try {
-      const response = await fetch('/api/categories', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: newCategoryName }),
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        setCategoryErrorMessage(errorData.status || 'カテゴリー作成に失敗しました');
-        return;
-      }
-      handleModalClose();
-    } catch (error) {
-      if (error instanceof Error) {
-        setCategoryErrorMessage(error.message || 'カテゴリー作成時にエラーが発生しました');
-      } else {
-        setPostErrorMessage('カテゴリー作成時にエラーが発生しました');
-      }
-    }
-  }
+  //   try {
+  //     const response = await fetch('/api/categories', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ name: newCategoryName }),
+  //     });
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       setCategoryErrorMessage(errorData.status || 'カテゴリー作成に失敗しました');
+  //       return;
+  //     }
+  //     handleModalClose();
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       setCategoryErrorMessage(error.message || 'カテゴリー作成時にエラーが発生しました');
+  //     } else {
+  //       setPostErrorMessage('カテゴリー作成時にエラーが発生しました');
+  //     }
+  //   }
+  // }
 
   // isOpenがfalseの場合は何も表示しない
   if (!isOpen) return null;
@@ -136,11 +137,11 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                 ? 'border-b-2 border-mainBlue font-semibold'
                 : 'text-gray-600'
             }`}
-            onClick={() => setActiveTab('post')}
+            // onClick={() => setActiveTab('post')}
           >
             投稿作成
           </button>
-          <button
+          {/* <button
             type='button'
             className={`py-2 px-4 ${
               activeTab === 'category'
@@ -150,7 +151,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
             onClick={() => setActiveTab('category')}
           >
             カテゴリー作成
-          </button>
+          </button> */}
         </div>
 
         {/* タブ：投稿作成 */}
@@ -216,7 +217,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
           </form>
         )}
 
-        {/* タブ: カテゴリー作成 */}
+        {/* タブ: カテゴリー作成
         {activeTab === 'category' && (
           <form
             onSubmit={handleSubmitCategory}
@@ -236,12 +237,12 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               />
             </div>
 
-            {/* エラー表示 */}
+            エラー表示
             {categoryErrorMessage && (
               <p className='text-red-500 text-sm'>{categoryErrorMessage}</p>
             )}
 
-            {/* ボタン */}
+            ボタン
             <div className='flex justify-end gap-2'>
               <button
                 type='button'
@@ -258,7 +259,8 @@ export const CreateModal: React.FC<CreateModalProps> = ({
               </button>
             </div>
           </form>
-        )}
+        )} */}
+
       </div>
     {/* </div> */}
     </div>,

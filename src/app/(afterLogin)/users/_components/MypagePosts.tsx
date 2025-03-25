@@ -9,6 +9,8 @@ import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useEffect, useState } from "react";
 import { UserPost } from "@/app/_types/Post";
 import { UserPostEditModal } from "./UserPostEditModal";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export const MypagePosts = () => {
   // 取得したユーザーの投稿一覧を格納するstate
@@ -19,6 +21,7 @@ export const MypagePosts = () => {
   // supabase.authからログイン済ユーザーのuserIdを取得
   const { session, token } = useSupabaseSession();
   // const userId = session?.user.id;
+  const [loading, setLoading] = useState<boolean>(true);
 
   // ユーザー投稿一覧取得
   useEffect(() => {
@@ -42,6 +45,8 @@ export const MypagePosts = () => {
         setUserPosts(posts);
       } catch (error) {
         console.error('ユーザー投稿一覧取得中にエラーが発生しました:', error);
+      } finally {
+        setLoading(false);
       }
     }
     fetcher();
@@ -64,6 +69,31 @@ export const MypagePosts = () => {
   // モーダルで更新した最新の投稿情報を取得して更新
   const handleUpdateUserPost = (updateUserPost: UserPost) => {
     setUserPosts((prevPosts) => prevPosts.map((prevPost) => prevPost.id === updateUserPost.id ? updateUserPost : prevPost));
+  }
+
+  if (loading) {
+    {[...Array(3)].map((_, index) => (
+      <div
+        key={index}
+        className='py-4 border-b border-lineGray'
+      >
+        <div className='flex items-center justify-between'>
+          <Skeleton width={60} height={20} />
+          <Skeleton circle width={16} height={16} />
+        </div>
+        <div className='mt-2.5'>
+          <Skeleton height={100} />
+        </div>
+        <div className='mt-2.5 flex items-center gap-x-2.5'>
+          <Skeleton width={80} height={20} />
+          <Skeleton width={80} height={20} />
+        </div>
+        <div className='mt-2.5 flex items-center gap-x-2.5'>
+          <Skeleton width={30} height={20} />
+          <Skeleton width={30} height={20} />
+        </div>
+      </div>
+    ))}
   }
 
   return(
@@ -121,7 +151,7 @@ export const MypagePosts = () => {
             )
           })
         ) : (
-          <p className='flex justify-center mt-20 mb-'>投稿はまだありません</p>
+          <p className='flex justify-center mt-20 mb-20'>投稿はまだありません</p>
         )}
 
         {/* 投稿編集用モーダルを定義 */}
