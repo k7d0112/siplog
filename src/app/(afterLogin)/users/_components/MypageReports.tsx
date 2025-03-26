@@ -156,13 +156,13 @@ export const MypageReports = () => {
       {/* swiperで任意にスライドできるスライドを実装予定 */}
       {isLoading ? (
         <Swiper
-        modules={[Navigation, Pagination]}
-        spaceBetween={50}
-        slidesPerView={1}
-        navigation
-        pagination={{ clickable: true }}
-        className='w-[350px] h-[350px] mx-auto shadow-md relative bg-white'
-      >
+          modules={[Navigation, Pagination]}
+          spaceBetween={50}
+          slidesPerView={1}
+          navigation
+          pagination={{ clickable: true }}
+          className='w-[350px] h-[350px] mx-auto shadow-md relative bg-white'
+        >
         {[...Array(4)].map((_, index) => (
           <SwiperSlide key={index}>
             <div className='flex items-center justify-center w-full h-full'>
@@ -218,7 +218,7 @@ export const MypageReports = () => {
             <ul className='border-t border-lineGray'>
               {isLoading ? (
                 <>
-                  {[...Array(3)].map((_, index) => {
+                  {[...Array(3)].map((_, index) => (
                     <li
                       key={index}
                       className='flex items-center justify-between border-b border-lineGray px-3 py-2'
@@ -228,7 +228,7 @@ export const MypageReports = () => {
                         <Skeleton width={50} height={16} />
                       </div>
                     </li>
-                  })}
+                  ))}
                 </>
               ) : (
                 data && data.reports && Array.isArray(data.reports) ? (
