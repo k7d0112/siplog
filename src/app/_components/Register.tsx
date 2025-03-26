@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion';
 import Image from "next/image";
 import { SigninButton } from "./Button";
 
@@ -11,7 +14,17 @@ export const Register = () => {
           新規登録して<br/>
           <span className='font-jost font-bold italic text-mainBlue text-3xl'>Sip Log</span>を始めよう！
         </p>
-        <SigninButton className='block mx-auto mt-10'/>
+        <motion.div
+          animate={{ scale: [1, 1.08, 1]}}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "loop",
+          }}
+          className="block mx-auto mt-10 text-center"
+        >
+          <SigninButton className=''/>
+        </motion.div>
         <Image
           src='/images/register.png'
           width={200}

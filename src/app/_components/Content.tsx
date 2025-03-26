@@ -1,3 +1,5 @@
+'use client'
+import { motion } from 'framer-motion';
 import Image from "next/image";
 
 type Contents = {
@@ -46,30 +48,47 @@ export const Content = () => {
   return(
     <section className='mt-10'>
       <div className='mx-auto px-5'>
-        <h2 className='sectionTitle'>
+        <motion.h2
+          className='sectionTitle'
+          initial={{ opacity: 0.8, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
           <span className='font-jost italic text-mainBlue font-bold pr-1'>Sip Log</span>でできること
-        </h2>
+        </motion.h2>
         <div className='mt-[25px]'>
           {contents.map((content, index) => (
             <div className='mt-5' key={index}>
-              <h3
-              dangerouslySetInnerHTML={{__html: content.title}}
+              <motion.h3
+                dangerouslySetInnerHTML={{__html: content.title}}
                 className='font-jost font-bold text-mainBlue text-[28px]'
+                initial={{ opacity: 0.8, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
               />
               <div className='mt-2 relative'>
-                <p
+                <motion.p
                   dangerouslySetInnerHTML={{ __html: content.description}}
                   className='pl-[30px] text-mainBlack font-noto font-normal text-base relative z-10 before:content-[""] before:w-5 before:h-[1px] before:bg-mainBlue before:absolute before:top-3 before:left-0'
+                  initial={{ opacity: 0.8, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
                 />
                 <span className='font-barlow text-mainBlue/30 font-bold text-[200px] absolute -top-4 right-3 leading-none'>{content.number}</span>
               </div>
-              <Image
-                src={content.image}
-                width={304}
-                height={322}
-                alt={content.alt}
-                className='mt-2 mx-auto'
-              />
+              <motion.div
+                initial={{ opacity: 0.8, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                <Image
+                  src={content.image}
+                  width={304}
+                  height={322}
+                  alt={content.alt}
+                  className='mt-2 mx-auto'
+                />
+              </motion.div>
             </div>
           ))}
         </div>
