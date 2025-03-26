@@ -14,11 +14,14 @@ import { UserPostDetailProps } from "@/app/_types/Post";
 import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { GetComment } from "@/app/_types/Comments";
 import { supabase } from "@/app/_libs/supabase";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
   const { session, token } = useSupabaseSession();
   const [comments, setComments] = useState<GetComment[]>([]);
   const [inputText, setInputText] = useState<string>('');
+  const [commentLoading, setCommentLoading] = useState<boolean>(false);
 
   // コメントのリアルタイム取得
   useEffect(() => {
@@ -27,6 +30,7 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
     const fetchComments = async () => {
       if (!token) return;
       try {
+        setCommentLoading(true);
         const res = await fetch(`/api/comments/${post.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,9 +44,14 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
         setComments(comments);
       } catch (error) {
         console.error('コメントの取得中にエラーが発生しました', error);
+      } finally {
+        setCommentLoading(false);
       }
     }
-    fetchComments();
+
+    if (post.commentAmount > 0) {
+      fetchComments();
+    }
 
     const commentChannel = supabase
       .channel('realtime-comments')
@@ -61,7 +70,7 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
     return () => {
       commentChannel.unsubscribe();
     };
-  }, [post.id, token]);
+  }, [post.id, post.commentAmount, token]);
 
   // コメント送信
   const handleSubmitComment = async (e: FormEvent) => {
@@ -135,24 +144,45 @@ export const PostDetailLayout: React.FC<UserPostDetailProps> = ({ post }) => {
           />
         </div>
       </div>
+
       {/* コメント送信者のコメント */}
       <ul className="pb-3 border-b border-lineGray">
-        {comments.map((comment) => (
-          // <div className='mt-5 relative before:content-[""] before:w-[1px] before:h-[50px] before:bg-lineGray before:absolute before:left-5 before:top-[-50px]'>
-          <div
-            key={comment.id}
-            className='mt-3 pt-3 border-t border-lineGray'
-          >
-            <div className='flex gap-x-2 items-center justify-between'>
-              <div className='flex gap-x-2 items-center'>
-                <UserIcon thumbnailImageKey={comment.user.thumbnailImageKey}/>
-                <DetailUserName userName={comment.user.userName}/>
+        {post.commentAmount > 0 && commentLoading ? (
+          <>
+            {[...Array(post.commentAmount)].map((_, index) => (
+              <div
+                key={index}
+                className='mt-3 pt-3 border-t border-lineGray'
+              >
+                <div className='flex gap-x-2 items-center justify-between'>
+                  <div className='flex gap-x-2 items-center'>
+                    <Skeleton circle width={36} height={36} />
+                    <Skeleton width={80} height={20} />
+                  </div>
+                  <Skeleton width={80} height={20} />
+                </div>
+                <Skeleton className='mt-2.5' height={80} />
               </div>
-              <CreatedTime className='text-right' createdAt={new Date(comment.createdAt)}/>
+            ))}
+          </>
+        ) : (
+          comments.map((comment) => (
+            // <div className='mt-5 relative before:content-[""] before:w-[1px] before:h-[50px] before:bg-lineGray before:absolute before:left-5 before:top-[-50px]'>
+            <div
+              key={comment.id}
+              className='mt-3 pt-3 border-t border-lineGray'
+            >
+              <div className='flex gap-x-2 items-center justify-between'>
+                <div className='flex gap-x-2 items-center'>
+                  <UserIcon thumbnailImageKey={comment.user.thumbnailImageKey}/>
+                  <DetailUserName userName={comment.user.userName}/>
+                </div>
+                <CreatedTime className='text-right' createdAt={new Date(comment.createdAt)}/>
+              </div>
+              <DetailTextArea className='mt-2.5' content={comment.text}/>
             </div>
-            <DetailTextArea className='mt-2.5' content={comment.text}/>
-          </div>
-        ))}
+          ))
+        )}
       </ul>
 
       {/* コメント送信フォーム */}
