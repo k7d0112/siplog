@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from "framer-motion";
 import { FaClock, FaClockRotateLeft } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { FrontPost } from "../_types/Post";
@@ -46,13 +47,23 @@ export const News = () => {
   return(
     <section className='mt-10'>
       <div className='mx-auto px-5'>
-        <h2 className='sectionTitle'>ニュース</h2>
+        <motion.h2
+          className='sectionTitle'
+          initial={{ opacity: 0.8, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          ニュース
+        </motion.h2>
         <ul className='mt-6 mx-auto rounded shadow-md p-4 border border-mainBgGray'>
           {posts?.map((post, index) => (
-            <li
+            <motion.li
               key={index}
               className='border-b border-mainBgGray pb-2 mb-3 cursor-pointer'
               onClick={() => handleOpen(post)}
+              initial={{ opacity: 0.8, y:50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
               <div className='flex items-center'>
                 <div className='flex items-center'>
@@ -75,7 +86,7 @@ export const News = () => {
                   </li>
                 ))}
               </ul>
-            </li>
+            </motion.li>
           )) || <p className='font-noto text-medium text-mainBlack text-xl'>投稿されているニュースはありません</p>}
         </ul>
       </div>

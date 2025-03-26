@@ -200,7 +200,7 @@ export const MypageReports = () => {
           </Swiper>
 
           {/* 個人レポート表示エリア */}
-          <div className='w-full mt-4 mb-10 mx-auto shadow-md border border-lineGray bg-white'>
+          <div className='w-full mt-4 mb-20 mx-auto shadow-md border border-lineGray bg-white'>
             {/* レポートヘッダー */}
             <div className='w-full flex items-center justify-between py-2 px-3'>
               <div className='flex items-center gap-x-1'>
