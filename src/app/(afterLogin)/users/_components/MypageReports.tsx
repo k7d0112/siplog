@@ -133,7 +133,7 @@ export const MypageReports = () => {
     }
   }
 
-  const isLoading = !data;
+  const isLoading = (data === undefined);
 
   return(
     <>
