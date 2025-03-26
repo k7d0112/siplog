@@ -137,13 +137,29 @@ export const PieChartComponent: React.FC<PieChartProps> = ({ data, title }) => {
         nameKey="name"
         cx="50%"
         cy="50%"
-        outerRadius={100}
+        outerRadius={90}
         fill="#8884d8"
-        label={(entry) => entry.name}
+        label={({ name, x, y, textAnchor, stroke }) => {
+          return (
+            <text
+              x={x}
+              y={y}
+              fill={stroke}
+              textAnchor={textAnchor}
+              style={{ fontSize: '12px' }}
+              dominantBaseline='central'
+            >
+              {name}
+            </text>
+          );
+        }}
         labelLine={true}
       >
         {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          <Cell
+            key={`cell-${index}`}
+            fill={COLORS[index % COLORS.length]}
+          />
         ))}
       </Pie>
     </PieChart>

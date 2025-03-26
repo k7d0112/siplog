@@ -218,7 +218,7 @@ export const MypageReports = () => {
             <ul className='border-t border-lineGray'>
               {isLoading ? (
                 <>
-                  {[...Array(3)].map((_, index) => {
+                  {[...Array(3)].map((_, index) => (
                     <li
                       key={index}
                       className='flex items-center justify-between border-b border-lineGray px-3 py-2'
@@ -228,7 +228,7 @@ export const MypageReports = () => {
                         <Skeleton width={50} height={16} />
                       </div>
                     </li>
-                  })}
+                  ))}
                 </>
               ) : (
                 data && data.reports && Array.isArray(data.reports) ? (
