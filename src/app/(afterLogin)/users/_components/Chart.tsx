@@ -139,15 +139,16 @@ export const PieChartComponent: React.FC<PieChartProps> = ({ data, title }) => {
         cy="50%"
         outerRadius={90}
         fill="#8884d8"
-        label={({ name, x, y, textAnchor, stroke }) => {
+        label={(pieProps) => {
+          const { x, y, name, textAnchor, fill } = pieProps;
           return (
             <text
               x={x}
               y={y}
-              fill={stroke}
+              fill={fill}
               textAnchor={textAnchor}
-              style={{ fontSize: '12px' }}
-              dominantBaseline='central'
+              fontSize={10}
+              dy={3}
             >
               {name}
             </text>
