@@ -17,45 +17,62 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export const UsersLayout: React.FC = () => {
   const [isToggle, setIsToggle] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   // 取得したユーザー情報を保存
   const [user, setUser] = useState<GetUserInfo | null>(null);
 
   // カスタムフックからsupabase.authのユーザー情報を取得
   const { session, token } = useSupabaseSession();
 
+  console.log('session:', session?.user);
   // マイページに表示するユーザー情報を取得するためのfetch処理 (GET)
   useEffect(() => {
-    // useSupabaseSession()が非同期処理のためtokenが渡されるまでfecth処理は行わない、かつtokenがnullの場合、headersに渡すとエラーが出るのでその対策
-    if (!token) return;
-    // デバック用
-    // console.log(token);
-    // console.log(session)
-
-    const fetcher = async () => {
+    // ゲストユーザーの場合
+    const fetchUserData = async () => {
       try {
-        // token がある場合、"Bearer " を付けて送信
-        const authHeader: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
-        const res = await fetch('/api/users', {
-          headers: {
-            'Content-Type': 'application/json',
-            ...authHeader,
-          },
-        });
-        // レスポンスがエラー(400など)の場合は throw する
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.status || 'APIエラー');
+        if (!session) return;
+
+        // 匿名ユーザーかどうか判定
+        // const isAnonymous = session.user?.app_metadata?.provider === 'anonymous' || session.user?.identities?.[0]?.provider === 'anonymous';
+        const isAnonymous = session.user.is_anonymous;
+        console.log(isAnonymous)
+
+        if (isAnonymous) {
+          const res = await fetch('/api/guest');
+          if (!res.ok) {
+            throw new Error('ゲストユーザーの情報取得に失敗しました。');
+          }
+          const { guestUserProfile } = await res.json();
+          setUser(guestUserProfile);
+        } else {
+          // useSupabaseSession()が非同期処理のためtokenが渡されるまでfecth処理は行わない、かつtokenがnullの場合、headersに渡すとエラーが出るのでその対策
+          if (!token) return;
+          // token がある場合、"Bearer " を付けて送信
+          const authHeader: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+          const res = await fetch('/api/users', {
+            headers: {
+              'Content-Type': 'application/json',
+              ...authHeader,
+            },
+          });
+          // レスポンスがエラー(400など)の場合は throw する
+          if (!res.ok) {
+            const errorData = await res.json();
+            throw new Error(errorData.status || 'APIエラー');
+          }
+          const { UserProfile } = await res.json();
+          // console.log('取得したデータ', { status, UserProfile });
+          // ここでUserProfileをsetUserに格納
+          setUser(UserProfile);
         }
-        const { UserProfile } = await res.json();
-        // console.log('取得したデータ', { status, UserProfile });
-        // ここでUserProfileをsetUserに格納
-        setUser(UserProfile);
       } catch (error) {
-        console.error('ユーザー情報取得中にエラーが発生しました:', error);
+        if (error instanceof Error) {
+          console.error('ユーザー情報取得中にエラーが発生しました：',error.message);
+        }
       }
-    }
-    fetcher();
-  }, [token]);
+    };
+    fetchUserData();
+  }, [session ,token]);
 
   // 3点リーダーの省略をON/OFfするための関数
   const toggleText = () => {

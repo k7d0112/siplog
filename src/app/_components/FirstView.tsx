@@ -85,6 +85,9 @@ export const FirstView = () => {
       >
         <SigninButton className=''/>
       </motion.div>
+      <p className='text-center mt-5'>
+        上のボタンからユーザー登録なしの<br/>テストユーザーとしてログインすることもできます！
+      </p>
 
       {/* 下からフェードイン */}
       <motion.div
