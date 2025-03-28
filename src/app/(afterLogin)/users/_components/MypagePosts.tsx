@@ -9,7 +9,7 @@ import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useEffect, useState } from "react";
 import { UserPost } from "@/app/_types/Post";
 import { UserPostEditModal } from "./UserPostEditModal";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
 export const MypagePosts = () => {

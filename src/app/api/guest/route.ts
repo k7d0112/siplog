@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 // ゲストログイン時にゲスト用のユーザー情報を取得
-export const GET = async ( request: NextRequest ) => {
+export const GET = async () => {
   try {
     const guestUserProfile = await prisma.user.findFirst({
       where: {
