@@ -9,7 +9,7 @@ import { useSupabaseSession } from "@/app/_hooks/useSupabaseSession";
 import { useEffect, useState } from "react";
 import { UserPost } from "@/app/_types/Post";
 import { UserPostEditModal } from "./UserPostEditModal";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
 export const MypagePosts = () => {
@@ -152,7 +152,7 @@ export const MypagePosts = () => {
           })
         ) : (
           <div className='px-3 pt-4'>
-            {[...Array(3)].map((_, index) => (
+            {/* {[...Array(3)].map((_, index) => (
               <div
                 key={index}
                 className='py-4 border-b border-lineGray'
@@ -175,7 +175,8 @@ export const MypagePosts = () => {
                   </div>
                 </SkeletonTheme>
               </div>
-            ))}
+            ))} */}
+            <p className='text-center py-20'>投稿はまだありません</p>
           </div>
         )}
 

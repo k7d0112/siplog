@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { useState } from 'react'
 import { InputArea } from '../_components/Input';
 import { FormButton } from '../_components/Button';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { IoLogInOutline } from "react-icons/io5";
 
 export default function Page () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,8 +71,19 @@ export default function Page () {
     }
   }
 
+  const handleAnonymousLogin = async () => {
+    const { error } = await supabase.auth.signInAnonymously();
+
+    if (error instanceof Error) {
+      alert('ゲストログインに失敗しました。お手数ですが再度お試し下さい。');
+      throw new Error(error.message);
+    }
+
+    router.push('/users');
+  }
+
   return (
-    <div className='max-w-80 mx-auto px-3 pt-20'>
+    <div className='max-w-80 mx-auto px-3 pt-10'>
       <Image
         src='/images/signinImage.png'
         alt='コーヒーを持った男女がハンモックでくつろいでいるイラスト'
@@ -113,6 +125,16 @@ export default function Page () {
           label='サインアップ'
         />
       </form>
+      <p className='mt-3 text-xs font-noto text-center text-mainBlack'>または</p>
+      <div className='mt-3 w-full'>
+        <button
+          onClick={handleAnonymousLogin}
+          className='w-full text-white bg-mainBlue hover:opacity-80 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center relative'
+        >
+          <span>ゲストユーザーとしてログイン</span>
+          <IoLogInOutline size={20} className='absolute right-4 top-1/2 translate-y-[-50%]' />
+        </button>
+      </div>
     </div>
   );
 }
