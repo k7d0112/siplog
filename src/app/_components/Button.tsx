@@ -34,7 +34,7 @@ export const SigninButton: React.FC<ClassNameProps> = ({ className }) => {
       onClick={handleClick}
       className={`${className} py-4 px-8 bg-mainBlue text-white font-noto font-bold text-2xl rounded-xl cursor-pointer relative btnOrnamentBefore btnOrnamentAfter`}
     >
-      新規新規登録はこちら！
+      新規登録はこちら！
     </button>
   );
 }

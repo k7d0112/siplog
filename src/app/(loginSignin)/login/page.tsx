@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { InputArea } from '../_components/Input';
 import { FormButton } from '../_components/Button';
 import Image from 'next/image';
+import { IoLogInOutline } from "react-icons/io5";
+
 
 export default function Page() {
   const [email, setEmail] = useState('');
@@ -34,6 +36,10 @@ export default function Page() {
     } else if (name === 'password') {
       setPassword(value);
     }
+  }
+
+  const handleRedirectSignup = () => {
+    router.push('/signup');
   }
 
   return (
@@ -71,6 +77,18 @@ export default function Page() {
           label='ログイン'
         />
       </form>
+      <p className='mt-3 text-xs font-noto text-center text-mainBlack'>
+        ユーザー登録がまだの方は<br/>下記ボタンからご登録ください
+        </p>
+      <div className='mt-3 w-full'>
+        <button
+          onClick={handleRedirectSignup}
+          className='w-full text-white bg-mainBlue hover:opacity-80 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3 text-center relative'
+        >
+          <span>新規登録</span>
+          <IoLogInOutline size={20} className='absolute right-4 top-1/2 translate-y-[-50%]' />
+        </button>
+      </div>
     </div>
   );
 }
