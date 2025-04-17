@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 開発者向け
 
-## Getting Started
+## パッケージインストール
 
-First, run the development server:
+```bash
+npm i
+```
+
+## 環境変数設定
+
+`.env`をルートディレクトリに作成し、それぞれの中身はリクエストしてください。
+
+## 作業ブランチ
+
+ブランチ命名
+新機能追加 `feature/hoge`
+バグ修正 `fix/hoge`
+
+## ローカルサーバー起動
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br/>
+<br/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#　利用者向け
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+![LP-firstview画像](/public/images/LP_firstview.jpg)
 
-## Learn More
+<br/>
 
-To learn more about Next.js, take a look at the following resources:
+## サービスのURL
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+新規登録ボタンからゲストユーザーとしてワンクリックでアプリにログインできるので、お気軽にお試しください。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+https://siplog.vercel.app
 
-## Deploy on Vercel
+<br/>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## サービス開発の経緯
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+私は趣味でコーヒーをよく飲んでいて、普段からインスタントコーヒーではなくコーヒー豆を自分で挽いて飲んだり、カフェに行ったりしています。
+コーヒー豆を購入するお店は決まっていて、そのお店に並ぶ数種類のコーヒー豆を飲み比べて自分の好みに合うものを探したりしています。
+色々な種類のコーヒーを飲み比べる内に、飲んだコーヒーの感想や情報をまとめて見れるようにしたい、他の人がどこでコーヒー豆を買って、どんなコーヒーを飲んでいるのか知りたいと思うようになりました。
+すでに、コーヒーの記録をするサービスは世の中にありましたが、コーヒーの情報を交換できるサービスはありませんでした。
+そこで自分が開発したのが、コーヒーの記録ができてさらにコーヒーの情報を共有できる Sip Log です。
+
+<br/>
+
+## 機能一覧
+
+| トップ画面 | サインアップ画面 |
+| --- | --- |
+| ![LP-firstview](/public/images/LP_firstview.jpg) | ![SignUp画面](/public/images/Signup.jpg) |
+| トップページ(/)を LP の構成にし、訪問者がサービスの内容を理解し、登録してもらいやすくしました。 | 気軽にアプリ内ページを見てもらうためにゲストログインボタンを用意しました。 |
+
+| マイページ_投稿一覧画面 | マイページ_レポート一覧画面 |
+| --- | --- |
+| ![マイページ_投稿一覧画面](/public/images/mypage_post.jpg) | ![マイページ_レポート一覧画面](/public/images/mypage_report.jpg) |
+| マイページで自分の投稿を一覧表示する画面です。自分の投稿の編集も行えます。 | レポートの作成・更新・削除が行える画面です。レポート情報が自動でグラフに表示されます。 |
+
+| 投稿一覧画面 | 投稿詳細画面 |
+| --- | --- |
+| ![投稿一覧画面](/public/images/post.jpg) | ![投稿詳細画面](/public/images/post_detail.jpg) |
+| 全ユーザーの投稿を確認できます。投稿にいいねを押すこともできます。 | 選択した投稿の詳細を表示する画面です。投稿にコメントすることができます。 |
+
+| 投稿作成画面 | 質問一覧画面 |
+| --- | --- |
+| ![投稿作成モーダル](/public/images/create_modal.jpg) | ![質問一覧画面](/public/images/question.jpg) |
+| 画面下のプラスボタンから投稿を作成できるモーダルが表示できます。 | ユーザーから頂いた質問を他のユーザーにも共有する画面です。|
+
+| 問い合わせ用フォーム |
+| --- |
+| ![問い合わせ用フォーム](/public/images/contact.jpg) |
+| 管理者に質問・改善依頼ができるフォームです。 |
+
+<br/>
+
+## 使用技術
+
+| Category       | Technology Stack                 |
+| -------------- | -------------------------------- |
+| Frontend       | TypeScript, Next.js, TailwindCss |
+| Backend        | TypeScript, Next.js, Prisma      |
+| Infrastructure | Vercel, Supabase                 |
+| Database       | PostgreSQL                       |
+| Design         | Figma                            |
+| etc.           | ESLint, Prettier, Git, GitHub    |
+
+<br/>
+
+## システム構成図
+
+![システム構成図](/public/images/system.jpg)
+
+<br/>
+
+## ER図
+
+![ER図](/public/images/ER.jpg)
+
+<br/>
+
+## 今後の展望
+
+下記の2つについて、開発を進めていきたいと考えています。
+
+1. 機能強化
+   現在の機能を強化し、ユーザー体験を向上させるための改善を行います。具体的には、既存のUI/UXを見直し、直感的に操作できるようなデザインに改善します。また、各機能の操作性を向上させるための改良も行います。
+
+2. パフォーマンスの最適化
+   システムのパフォーマンスを最適化し、快適な操作感を提供します。具体的には、システムのレスポンス時間を短縮するための最適化を行い、ユーザーがストレスなくサービスを利用できるようにします。また、データの読み込み速度や処理速度も向上させます。
