@@ -2,26 +2,31 @@
 
 import { supabase } from '@/app/_libs/supabase'
 import Image from 'next/image';
-import { useState } from 'react'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { InputArea } from '../_components/Input';
 import { FormButton } from '../_components/Button';
 import { useRouter } from 'next/navigation';
 import { IoLogInOutline } from "react-icons/io5";
+import { SignupValidationSchema } from '../utils/SignupValidationSchema';
+import { SignupForm } from '../_types/SignupForm';
 
 export default function Page () {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: 'onChange',
+    resolver: zodResolver(SignupValidationSchema),
+  })
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const onSubmit = async ({ userName, email, password}: SignupForm) => {
     const { data: authUser, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        // 本番環境では、メールアドレス認証後に該当ページにリダイレクトさせる
         emailRedirectTo: `https://siplog.vercel.app/users`,
         data: {
           userName: userName,
@@ -33,9 +38,6 @@ export default function Page () {
       alert('登録に失敗しました。再度お試しください');
       throw new Error('Failed to sign up user');
     } else {
-      setUserName('')
-      setEmail('')
-      setPassword('')
       alert('確認メールを送信しました。メールアドレス認証後、アプリ内ページに移動します。');
     }
 
@@ -54,20 +56,6 @@ export default function Page () {
 
     if ( !response.ok ) {
       throw new Error('Failed to save user information');
-    }
-
-    // テスト環境のみメールアドレス認証前にユーザーページに遷移
-    // router.push('/users');
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === 'userName') {
-      setUserName(value);
-    } else if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
     }
   }
 
@@ -92,37 +80,35 @@ export default function Page () {
         className='mx-auto'
       />
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className='space-y-5 w-full max-w-[300px] mt-10'
       >
         <InputArea
           label='ユーザー名'
           type='text'
-          name='userName'
-          value={userName}
-          onChange={handleChange}
           placeholder='ユーザー名'
+          { ...register('userName')}
+          error={errors.userName?.message}
         />
         <InputArea
           label='メールアドレス'
           type='email'
-          name='email'
-          value={email}
-          onChange={handleChange}
           placeholder='hogehoge@gmail.com'
+          { ...register('email')}
+          error={errors.email?.message}
         />
         <InputArea
           label='パスワード'
           type='password'
-          name='password'
-          value={password}
-          onChange={handleChange}
           placeholder='････････'
+          { ...register('password')}
+          error={errors.password?.message}
         />
 
         <FormButton
           type='submit'
-          label='サインアップ'
+          label={isSubmitting ? 'サインアップ中...' : 'サインアップ'}
+          disabled={isSubmitting}
         />
       </form>
       <p className='mt-3 text-xs font-noto text-center text-mainBlack'>または</p>
