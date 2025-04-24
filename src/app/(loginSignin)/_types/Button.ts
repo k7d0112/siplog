@@ -2,4 +2,5 @@
 export type FormButtonProps = {
   type: "submit" | "reset" | "button";
   label: string;
-}
+  disabled?: boolean;
+};

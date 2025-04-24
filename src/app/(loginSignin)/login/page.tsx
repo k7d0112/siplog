@@ -2,21 +2,28 @@
 
 import { supabase } from '@/app/_libs/supabase'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useForm } from 'react-hook-form';
 import { InputArea } from '../_components/Input';
 import { FormButton } from '../_components/Button';
 import Image from 'next/image';
 import { IoLogInOutline } from "react-icons/io5";
+import { LoginForm } from '../_types/LoginForm';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LoginValidationSchema } from '../utils/LoginValidationSchema';
 
 
 export default function Page() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm<LoginForm>({
+    mode: 'onChange',
+    resolver: zodResolver(LoginValidationSchema)
+  });
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const onSubmit = async ({ email, password }: LoginForm) => {
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -24,17 +31,9 @@ export default function Page() {
 
     if (error) {
       alert('ログインに失敗しました。入力内容を確認し再度ログインしてください。');
+      return;
     } else {
       router.replace('/users');
-    }
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if ( name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
     }
   }
 
@@ -52,29 +51,28 @@ export default function Page() {
         className='mx-auto'
       />
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className='space-y-5 w-full max-w-[300px] mt-10'
       >
         <InputArea
           label='メールアドレス'
           type='email'
-          name='email'
-          value={email}
-          onChange={handleChange}
           placeholder='hogehoge@gmail.com'
+          { ...register('email')}
+          error={errors.email?.message}
         />
         <InputArea
           label='パスワード'
           type='password'
-          name='password'
-          value={password}
-          onChange={handleChange}
           placeholder='････････'
+          { ...register('password')}
+          error={errors.password?.message}
         />
 
         <FormButton
           type='submit'
-          label='ログイン'
+          label={isSubmitting ? 'ログイン中...' : 'ログイン'}
+          disabled={isSubmitting}
         />
       </form>
       <p className='mt-3 text-xs font-noto text-center text-mainBlack'>
