@@ -33,7 +33,8 @@ export default function Page() {
       alert('ログインに失敗しました。入力内容を確認し再度ログインしてください。');
       return;
     } else {
-      router.replace('/users');
+      // router.replace('/users');
+      console.log('ログインに成功しました');
     }
   }
 
