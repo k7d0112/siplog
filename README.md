@@ -80,14 +80,14 @@ https://siplog.vercel.app
 
 ## 使用技術
 
-| Category       | Technology Stack                                    |
-| -------------- | --------------------------------------------------- |
-| Frontend       | TypeScript, Next.js, TailwindCss                    |
-| Backend        | TypeScript, Next.js, Prisma                         |
-| Infrastructure | Vercel, Supabase                                    |
-| Database       | PostgreSQL                                          |
-| Design         | Figma                                               |
-| etc.           | react-hook-form, zod, ESLint, Prettier, Git, GitHub |
+| Category       | Technology Stack                                                           |
+| -------------- | -------------------------------------------------------------------------- |
+| Frontend       | TypeScript, Next.js, TailwindCss                                           |
+| Backend        | TypeScript, Next.js, Prisma                                                |
+| Infrastructure | Vercel, Supabase                                                           |
+| Database       | PostgreSQL                                                                 |
+| Design         | Figma                                                                      |
+| etc.           | react-hook-form, zod, Jest, testing-library, ESLint, Prettier, Git, GitHub |
 
 <br/>
 
