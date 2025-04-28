@@ -10,10 +10,13 @@ jest.mock('@/app/_libs/supabase', () => ({
   },
 }));
 
+const replace = jest.fn();
+const push = jest.fn();
+
 jest.mock('next/navigation', () => ({
   useRouter: () => ({
-    replace: jest.fn(),
-    push: jest.fn(),
+    replace,
+    push,
   }),
 }));
 
@@ -21,16 +24,14 @@ describe('Test Login', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  // test('render form with 2 button', async () => {
-  //   render(<Page/>);
-  //   const loginButton = screen.getByRole('button', { name: 'ログイン' });
-  //   expect(loginButton).toBeInTheDocument();
-  // });
+
   test('正常にログインできるかのテスト', async () => {
     (supabase.auth.signInWithPassword as jest.Mock).mockResolvedValueOnce({
       error: null,
     });
+
     render(<Page/>);
+
     const emailInput = screen.getByPlaceholderText('hogehoge@gmail.com');
     const passwordInput = screen.getByPlaceholderText('････････');
     const loginButton = screen.getByRole('button', { name: /ログイン/ });
@@ -71,21 +72,23 @@ describe('Test Login', () => {
     });
   });
 
-  // test('ログイン成功後に、/usersへリダイレクトされるかのテスト', async () => {
-  //   (supabase.auth.signInWithPassword as jest.Mock).mockResolvedValueOnce({
-  //     error: null,
-  //   });
+  test('ログイン成功後に、/usersへリダイレクトされるかのテスト', async () => {
+    (supabase.auth.signInWithPassword as jest.Mock).mockResolvedValueOnce({
+      error: null,
+    });
 
-  //   render(<Page/>);
-  //   const emailInput = screen.getByPlaceholderText('hogehoge@gmail.com');
-  //   const passwordInput = screen.getByPlaceholderText('････････');
-  //   const loginButton = screen.getByRole('button', { name: /ログイン/ });
+    render(<Page/>);
 
-  //   fireEvent.change(emailInput, { target: { value: 'test@example.com'}});
-  //   fireEvent.change(passwordInput, { target: { value:'password123'}});
+    const emailInput = screen.getByPlaceholderText('hogehoge@gmail.com');
+    const passwordInput = screen.getByPlaceholderText('････････');
+    const loginButton = screen.getByRole('button', { name: /ログイン/ });
 
-  //   await waitFor(() => {
-  //     expect(router.replace)
-  //   })
-  // })
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' }});
+    fireEvent.change(passwordInput, { target: { value:'password123' }});
+    fireEvent.click(loginButton);
+
+    await waitFor(() => {
+      expect(replace).toHaveBeenCalledWith('/users');
+    });
+  });
 });
