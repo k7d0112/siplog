@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { motion } from "framer-motion";
-import { FaClock, FaClockRotateLeft } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { FrontPost } from "../_types/Post";
-import { Modal } from '@/app/_components/Modal'
-import { formatDate } from "../_libs/day";
+import { motion } from 'framer-motion';
+import { FaClock, FaClockRotateLeft } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
+import { FrontPost } from '../_types/Post';
+import { Modal } from '@/app/_components/Modal';
+import { formatDate } from '../_libs/day';
 
 export const News = () => {
   // microCMSから取得した記事データを保存
@@ -18,14 +18,17 @@ export const News = () => {
   // microCMSから記事データを取得
   useEffect(() => {
     const fetcher = async () => {
-      const res = await fetch('https://n9f9t14lom.microcms.io/api/v1/news', {
-        headers: {
-          'X-MICROCMS-API-KEY': 'jZh56ptt8eaRWXeZ3snRxNgy71JOINYGldwT',
-        },
-      });
+      const res = await fetch(
+        `https://${process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/news`,
+        {
+          headers: {
+            'X-MICROCMS-API-KEY': `${process.env.NEXT_PUBLIC_MICROCMS_API_KEY}`,
+          },
+        }
+      );
       const { contents } = await res.json();
       setPosts(contents);
-    }
+    };
 
     fetcher();
   }, []);
@@ -36,58 +39,68 @@ export const News = () => {
       setIsOpen(false);
       setSelectPost(null);
     }, 400);
-  }
+  };
 
   // モーダルを表示させる関数
   const handleOpen = (post: FrontPost) => {
     setIsOpen(true);
     setSelectPost(post);
-  }
+  };
 
-  return(
-    <section className='mt-10'>
-      <div className='mx-auto px-5'>
+  return (
+    <section className="mt-10">
+      <div className="mx-auto px-5">
         <motion.h2
-          className='sectionTitle'
+          className="sectionTitle"
           initial={{ opacity: 0.8, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
           ニュース
         </motion.h2>
-        <ul className='mt-6 mx-auto rounded shadow-md p-4 border border-mainBgGray'>
+        <ul className="mt-6 mx-auto rounded shadow-md p-4 border border-mainBgGray">
           {posts?.map((post, index) => (
             <motion.li
               key={index}
-              className='border-b border-mainBgGray pb-2 mb-3 cursor-pointer'
+              className="border-b border-mainBgGray pb-2 mb-3 cursor-pointer"
               onClick={() => handleOpen(post)}
-              initial={{ opacity: 0.8, y:50 }}
+              initial={{ opacity: 0.8, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className='flex items-center'>
-                <div className='flex items-center'>
-                  <FaClock className='w-3 fill-mainBlue align-middle'/>
-                  <span className='text-mainBlack font-noto text-sm pl-1'>{formatDate(post.createdAt)}</span>
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  <FaClock className="w-3 fill-mainBlue align-middle" />
+                  <span className="text-mainBlack font-noto text-sm pl-1">
+                    {formatDate(post.createdAt)}
+                  </span>
                 </div>
-                <div className='flex items-center ml-2'>
-                  <FaClockRotateLeft className='w-3 fill-mainBlue align-middle'/>
-                  <span className='text-mainBlack font-noto text-sm pl-1'>{formatDate(post.updatedAt)}</span>
+                <div className="flex items-center ml-2">
+                  <FaClockRotateLeft className="w-3 fill-mainBlue align-middle" />
+                  <span className="text-mainBlack font-noto text-sm pl-1">
+                    {formatDate(post.updatedAt)}
+                  </span>
                 </div>
               </div>
-              <h3 className='mt-2 font-noto font-bold text-mainBlack text-lg '>{post.title}</h3>
-              <ul className='flex items-center mt-1 flex-wrap'>
+              <h3 className="mt-2 font-noto font-bold text-mainBlack text-lg ">
+                {post.title}
+              </h3>
+              <ul className="flex items-center mt-1 flex-wrap">
                 {post.categories.map((postCategory, index) => (
                   <li
                     key={index}
-                    className='mr-2 font-noto font-medium text-white text-xs py-1 px-2 bg-mainBlue rounded'
+                    className="mr-2 font-noto font-medium text-white text-xs py-1 px-2 bg-mainBlue rounded"
                   >
                     {postCategory.name}
                   </li>
                 ))}
               </ul>
             </motion.li>
-          )) || <p className='font-noto text-medium text-mainBlack text-xl'>投稿されているニュースはありません</p>}
+          )) || (
+            <p className="font-noto text-medium text-mainBlack text-xl">
+              投稿されているニュースはありません
+            </p>
+          )}
         </ul>
       </div>
 
@@ -96,4 +109,4 @@ export const News = () => {
       )}
     </section>
   );
-}
+};

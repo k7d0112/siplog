@@ -11,9 +11,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*.{js,ts,tsx}": [
-      "npm run lint"
-    ]
+    "**/*.{js,ts,tsx}": "next lint --file"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

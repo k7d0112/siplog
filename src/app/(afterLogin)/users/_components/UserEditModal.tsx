@@ -1,9 +1,10 @@
-'use client'
+'use client';
 
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { supabase } from '@/app/_libs/supabase';
 import { UserEditModalProps } from '../_types/User';
-import { v4 as uuidv4 } from 'uuid'  // 固有IDを生成するライブラリ
+import { v4 as uuidv4 } from 'uuid'; // 固有IDを生成するライブラリ
+import Image from 'next/image';
 
 export const UserEditModal: React.FC<UserEditModalProps> = ({
   isOpen,
@@ -16,9 +17,13 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
   const [editName, setEditName] = useState('');
   const [editContent, setEditContent] = useState('');
   // データベースに保存する「画像キー(パス)」
-  const [thumbnailImageKey, setThumbnailImageKey] = useState<string | null>(null);
+  const [thumbnailImageKey, setThumbnailImageKey] = useState<string | null>(
+    null
+  );
   // モーダル内で即時プレビューするためのURL
-  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(null);
+  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(
+    null
+  );
 
   // モーダルを開くたびに、現在のユーザー情報をフォームに反映
   useEffect(() => {
@@ -36,7 +41,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
   ): Promise<void> => {
     if (!event.target.files || event.target.files.length === 0) {
       // 画像がないためreturn
-      return
+      return;
     }
 
     // 選択された画像ファイル
@@ -69,13 +74,15 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
     // console.log(thumbnailImageKey);
 
     // プレビュー用に公開URLを取得
-    const { data: { publicUrl }} = supabase.storage
+    const {
+      data: { publicUrl },
+    } = supabase.storage
       .from('userIcon_thumbnailUrl')
       .getPublicUrl(uploadedKey);
     if (publicUrl) {
       setThumbnailPreviewUrl(publicUrl);
     }
-  }
+  };
 
   // フォームをsubmitでPUTリクエストを送信
   const handleSubmit = async (e: FormEvent) => {
@@ -94,7 +101,8 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
           userName: editName,
           content: editContent,
           // 新しいURLがあればそれを使用し、なければ既存のURLを維持
-          thumbnailImageKey: thumbnailImageKey || user?.thumbnailImageKey || null,
+          thumbnailImageKey:
+            thumbnailImageKey || user?.thumbnailImageKey || null,
         }),
       });
 
@@ -110,7 +118,10 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
       onClose();
     } catch (error) {
       if (error instanceof Error) {
-        console.error('ユーザー情報の更新中にエラーが発生しました:', error.message);
+        console.error(
+          'ユーザー情報の更新中にエラーが発生しました:',
+          error.message
+        );
       } else {
         console.log('ユーザー情報の更新中にエラーが発生しました');
       }
@@ -126,30 +137,24 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
         <h2 className="font-bold mb-4">ユーザー情報を編集</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label
-              htmlFor='userName'
-              className="block font-semibold mb-1"
-            >
+            <label htmlFor="userName" className="block font-semibold mb-1">
               ユーザー名
             </label>
             <input
               type="text"
-              name='userName'
+              name="userName"
               value={editName}
               onChange={(e) => setEditName(e.target.value)}
               className="border p-2 w-full"
             />
           </div>
           <div>
-            <label
-              htmlFor='content'
-              className="block font-semibold mb-1"
-            >
+            <label htmlFor="content" className="block font-semibold mb-1">
               自己紹介文
             </label>
             <textarea
               value={editContent}
-              name='content'
+              name="content"
               onChange={(e) => setEditContent(e.target.value)}
               className="border p-2 w-full"
               rows={3}
@@ -158,14 +163,14 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
           <div>
             {/* ファイルアップロード */}
             <label
-              htmlFor='thumbnailImageKey'
+              htmlFor="thumbnailImageKey"
               className="block font-semibold mb-1"
             >
               アイコン画像
             </label>
             <input
               type="file"
-              id='thumbnailImageKey'
+              id="thumbnailImageKey"
               accept="image/*"
               onChange={handleImageChange}
               className="border p-2 w-full"
@@ -173,9 +178,11 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
             {/* アップロードされた画像をプレビュー(publicUrl) */}
             {thumbnailPreviewUrl && (
               <div className="mt-2">
-                <img
+                <Image
                   src={thumbnailPreviewUrl}
                   alt="選択されたアイコン画像"
+                  width={20}
+                  height={20}
                   className="w-20 h-20 object-cover rounded-full border"
                 />
               </div>
@@ -211,4 +218,4 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
       </div>
     </div>
   );
-}
+};
