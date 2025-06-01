@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { FaClock, FaClockRotateLeft } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { FrontPost } from "../_types/Post";
-import { Modal } from "@/app/_components/Modal";
-import { formatDate } from "../_libs/day";
+import { motion } from 'framer-motion';
+import { FaClock, FaClockRotateLeft } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
+import { FrontPost } from '../_types/Post';
+import { Modal } from '@/app/_components/Modal';
+import { formatDate } from '../_libs/day';
 
 export const News = () => {
   // microCMSから取得した記事データを保存
@@ -22,7 +22,7 @@ export const News = () => {
         `https://${process.env.NEXT_PUBLIC_MICROCMS_SERVICE_DOMAIN}.microcms.io/api/v1/news`,
         {
           headers: {
-            "X-MICROCMS-API-KEY": `${process.env.NEXT_PUBLIC_MICROCMS_API_KEY}`,
+            'X-MICROCMS-API-KEY': `${process.env.NEXT_PUBLIC_MICROCMS_API_KEY}`,
           },
         }
       );

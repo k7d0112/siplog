@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
-import { supabase } from "@/app/_libs/supabase";
-import { UserEditModalProps } from "../_types/User";
-import { v4 as uuidv4 } from "uuid"; // 固有IDを生成するライブラリ
-import Image from "next/image";
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
+import { supabase } from '@/app/_libs/supabase';
+import { UserEditModalProps } from '../_types/User';
+import { v4 as uuidv4 } from 'uuid'; // 固有IDを生成するライブラリ
+import Image from 'next/image';
 
 export const UserEditModal: React.FC<UserEditModalProps> = ({
   isOpen,
@@ -14,8 +14,8 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
   onUpdateUser,
 }) => {
   // フォーム入力用のステート
-  const [editName, setEditName] = useState("");
-  const [editContent, setEditContent] = useState("");
+  const [editName, setEditName] = useState('');
+  const [editContent, setEditContent] = useState('');
   // データベースに保存する「画像キー(パス)」
   const [thumbnailImageKey, setThumbnailImageKey] = useState<string | null>(
     null
@@ -28,8 +28,8 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
   // モーダルを開くたびに、現在のユーザー情報をフォームに反映
   useEffect(() => {
     if (user && isOpen) {
-      setEditName(user.userName || "");
-      setEditContent(user.content || "");
+      setEditName(user.userName || '');
+      setEditContent(user.content || '');
       setThumbnailImageKey(null);
       setThumbnailPreviewUrl(null);
     }
@@ -50,9 +50,9 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
 
     // supabaseに画像をアップロード
     const { data, error } = await supabase.storage
-      .from("userIcon_thumbnailUrl")
+      .from('userIcon_thumbnailUrl')
       .upload(filePath, file, {
-        cacheControl: "3600",
+        cacheControl: '3600',
         upsert: false,
       });
 
@@ -65,7 +65,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
     // data.path: 'private/xxxx-uuid'のようなキー
     const uploadedKey = data?.path;
     if (!uploadedKey) {
-      alert("画像キーを取得できませんでした。");
+      alert('画像キーを取得できませんでした。');
       return;
     }
 
@@ -77,7 +77,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
     const {
       data: { publicUrl },
     } = supabase.storage
-      .from("userIcon_thumbnailUrl")
+      .from('userIcon_thumbnailUrl')
       .getPublicUrl(uploadedKey);
     if (publicUrl) {
       setThumbnailPreviewUrl(publicUrl);
@@ -91,10 +91,10 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
     if (!token) return;
 
     try {
-      const res = await fetch("/api/users", {
-        method: "PUT",
+      const res = await fetch('/api/users', {
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: token,
         },
         body: JSON.stringify({
@@ -108,7 +108,7 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
 
       if (!res.ok) {
         const errorData = await res.json();
-        throw new Error(errorData.status || "APIエラー");
+        throw new Error(errorData.status || 'APIエラー');
       }
 
       const { updateUserInfo } = await res.json();
@@ -119,11 +119,11 @@ export const UserEditModal: React.FC<UserEditModalProps> = ({
     } catch (error) {
       if (error instanceof Error) {
         console.error(
-          "ユーザー情報の更新中にエラーが発生しました:",
+          'ユーザー情報の更新中にエラーが発生しました:',
           error.message
         );
       } else {
-        console.log("ユーザー情報の更新中にエラーが発生しました");
+        console.log('ユーザー情報の更新中にエラーが発生しました');
       }
     }
   };
