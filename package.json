@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "npx husky install"
   },
   "lint-staged": {
     "**/*.{js,ts,tsx}": [
